@@ -550,6 +550,238 @@
       background: rgba(255,255,255,0.02);
     }
 
+    /* ── Financial Plan ── */
+    .finance-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .finance-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+    .panel-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .fin-entry-list { max-height: 220px; overflow-y: auto; margin-bottom: 0.75rem; }
+    .fin-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+    .fin-entry:hover { background: rgba(255,255,255,0.04); }
+    .fin-entry .name { flex: 1; }
+    .fin-entry .cat-tag {
+      font-size: 0.72rem;
+      background: rgba(255,255,255,0.07);
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      color: var(--muted);
+      margin: 0 0.5rem;
+    }
+    .fin-entry .amount { font-weight: 600; min-width: 70px; text-align: right; }
+    .fin-entry .del-btn {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.85rem; padding: 0.2rem 0.35rem; margin-left: 0.4rem; border-radius: 4px;
+    }
+    .fin-entry .del-btn:hover { color: var(--accent); background: rgba(233,69,96,0.15); }
+    .fin-add-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .fin-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      flex: 1;
+      min-width: 0;
+    }
+    .fin-input:focus { border-color: var(--accent); }
+    .fin-input-sm { max-width: 110px; flex: 0 0 auto; }
+    .btn-sm { padding: 0.5rem 0.85rem; font-size: 0.85rem; }
+    .fin-total {
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: right;
+    }
+    .fin-total span { color: var(--info); }
+
+    .savings-goal-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .savings-goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .savings-goal-header .name { font-weight: 600; font-size: 0.95rem; }
+    .savings-goal-header .deadline { font-size: 0.78rem; color: var(--muted); }
+    .savings-goal-amounts {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .savings-goal-amounts .saved { color: var(--success); }
+    .savings-monthly {
+      font-size: 0.78rem;
+      color: var(--warning);
+      margin-top: 0.35rem;
+    }
+
+    .chart-bar-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      gap: 0.6rem;
+    }
+    .chart-bar-label {
+      min-width: 90px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: right;
+    }
+    .chart-bar-track {
+      flex: 1;
+      height: 22px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #fff;
+      min-width: fit-content;
+      transition: width 0.4s;
+    }
+    .projection-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .projection-row:last-child { border-bottom: none; }
+    .projection-row .month { color: var(--muted); }
+    .projection-row .value { font-weight: 600; }
+    .projection-row .value.positive { color: var(--success); }
+    .projection-row .value.negative { color: var(--accent); }
+
+    .shared-goal-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .shared-goal-card .goal-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .shared-goal-card .goal-title-row .name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .shared-contributions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+    .contrib-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+    }
+    .contrib-card .person-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+    .contrib-card .contrib-amount {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--success);
+    }
+
+    .person-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .person-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: var(--card);
+      border: 2px solid var(--border);
+      color: var(--muted);
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .person-tab:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
+    .person-tab.active { border-color: var(--accent); color: var(--text); background: rgba(233,69,96,0.08); }
+    .person-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 0.85rem;
+    }
+    .person-section { display: none; }
+    .person-section.active { display: block; }
+
+    @media (max-width: 640px) {
+      .finance-grid { grid-template-columns: 1fr; }
+      .fin-add-row { flex-direction: column; }
+      .fin-input-sm { max-width: 100%; }
+      .person-tabs { flex-direction: column; }
+      .shared-contributions { grid-template-columns: 1fr; }
+    }
+
     #toast {
       position: fixed;
       bottom: 2rem;
@@ -608,6 +840,7 @@
   <button class="active" onclick="switchTab('dreams', this)">🗂️ All Dreams</button>
   <button onclick="switchTab('timeline', this)">📅 Timeline</button>
   <button onclick="switchTab('budget', this)">💰 Budget</button>
+  <button onclick="switchTab('finance', this)">📊 Financial Plan</button>
 </nav>
 
 <main>
@@ -659,6 +892,165 @@
     </div>
     <div id="budget-summary" class="budget-summary"></div>
     <div id="budget-table-container"></div>
+  </div>
+
+  <!-- Financial Plan Tab -->
+  <div id="tab-finance" class="tab-content">
+    <div class="top-bar">
+      <span class="section-title">Financial Plan</span>
+    </div>
+
+    <!-- Person Tabs -->
+    <div class="person-tabs">
+      <button class="person-tab active" onclick="switchPerson('person1', this)">
+        <span class="person-avatar" style="background:#6366f1">👤</span>
+        <span id="person1-tab-name">Person 1</span>
+      </button>
+      <button class="person-tab" onclick="switchPerson('person2', this)">
+        <span class="person-avatar" style="background:#ec4899">👤</span>
+        <span id="person2-tab-name">Person 2</span>
+      </button>
+      <button class="person-tab" onclick="switchPerson('combined', this)">
+        <span class="person-avatar" style="background:#10b981">👥</span>
+        Combined
+      </button>
+    </div>
+
+    <!-- Name Editor -->
+    <div id="person-name-editor" class="finance-panel" style="margin-bottom:1.25rem;padding:.85rem 1.25rem">
+      <div class="fin-add-row" style="gap:1rem">
+        <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+          <label style="margin:0;white-space:nowrap;min-width:fit-content">Your Name:</label>
+          <input type="text" id="name-person1" class="fin-input" placeholder="Enter name" onchange="savePersonNames()" />
+        </div>
+        <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+          <label style="margin:0;white-space:nowrap;min-width:fit-content">Partner's Name:</label>
+          <input type="text" id="name-person2" class="fin-input" placeholder="Enter name" onchange="savePersonNames()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Person 1 Section -->
+    <div id="fin-person1" class="person-section active">
+      <div class="finance-grid">
+        <div class="finance-panel">
+          <h3 class="panel-heading">💵 Monthly Income</h3>
+          <div id="income-list-p1" class="fin-entry-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="income-name-p1" placeholder="Source (e.g. Salary)" class="fin-input" />
+            <input type="number" id="income-amount-p1" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
+            <button class="btn-primary btn-sm" onclick="addIncome('person1')">+</button>
+          </div>
+          <div class="fin-total">Total: <span id="income-total-p1">$0</span></div>
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading">🏷️ Monthly Expenses</h3>
+          <div id="expense-list-p1" class="fin-entry-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="expense-name-p1" placeholder="Expense (e.g. Rent)" class="fin-input" />
+            <input type="number" id="expense-amount-p1" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
+            <select id="expense-cat-p1" class="fin-input fin-input-sm">
+              <option>Housing</option><option>Food</option><option>Transport</option><option>Utilities</option>
+              <option>Insurance</option><option>Entertainment</option><option>Healthcare</option><option>Debt</option><option>Other</option>
+            </select>
+            <button class="btn-primary btn-sm" onclick="addExpense('person1')">+</button>
+          </div>
+          <div class="fin-total">Total: <span id="expense-total-p1">$0</span></div>
+        </div>
+      </div>
+      <div class="budget-summary" id="finance-summary-p1" style="margin-top:1.5rem"></div>
+      <div class="finance-panel" style="margin-top:1.5rem">
+        <h3 class="panel-heading">🎯 Personal Savings Goals</h3>
+        <div id="savings-goals-list-p1"></div>
+        <div class="fin-add-row">
+          <input type="text" id="goal-name-p1" placeholder="Goal name" class="fin-input" />
+          <input type="number" id="goal-target-p1" placeholder="Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-saved-p1" placeholder="Saved $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="date" id="goal-deadline-p1" class="fin-input fin-input-sm" />
+          <button class="btn-primary btn-sm" onclick="addSavingsGoal('person1')">+</button>
+        </div>
+      </div>
+      <div class="finance-grid" style="margin-top:1.5rem">
+        <div class="finance-panel">
+          <h3 class="panel-heading">📊 Expense Breakdown</h3>
+          <div id="expense-chart-p1"></div>
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading">📈 Savings Projection</h3>
+          <div id="savings-projection-p1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Person 2 Section -->
+    <div id="fin-person2" class="person-section">
+      <div class="finance-grid">
+        <div class="finance-panel">
+          <h3 class="panel-heading">💵 Monthly Income</h3>
+          <div id="income-list-p2" class="fin-entry-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="income-name-p2" placeholder="Source (e.g. Salary)" class="fin-input" />
+            <input type="number" id="income-amount-p2" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
+            <button class="btn-primary btn-sm" onclick="addIncome('person2')">+</button>
+          </div>
+          <div class="fin-total">Total: <span id="income-total-p2">$0</span></div>
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading">🏷️ Monthly Expenses</h3>
+          <div id="expense-list-p2" class="fin-entry-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="expense-name-p2" placeholder="Expense (e.g. Rent)" class="fin-input" />
+            <input type="number" id="expense-amount-p2" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
+            <select id="expense-cat-p2" class="fin-input fin-input-sm">
+              <option>Housing</option><option>Food</option><option>Transport</option><option>Utilities</option>
+              <option>Insurance</option><option>Entertainment</option><option>Healthcare</option><option>Debt</option><option>Other</option>
+            </select>
+            <button class="btn-primary btn-sm" onclick="addExpense('person2')">+</button>
+          </div>
+          <div class="fin-total">Total: <span id="expense-total-p2">$0</span></div>
+        </div>
+      </div>
+      <div class="budget-summary" id="finance-summary-p2" style="margin-top:1.5rem"></div>
+      <div class="finance-panel" style="margin-top:1.5rem">
+        <h3 class="panel-heading">🎯 Personal Savings Goals</h3>
+        <div id="savings-goals-list-p2"></div>
+        <div class="fin-add-row">
+          <input type="text" id="goal-name-p2" placeholder="Goal name" class="fin-input" />
+          <input type="number" id="goal-target-p2" placeholder="Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-saved-p2" placeholder="Saved $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="date" id="goal-deadline-p2" class="fin-input fin-input-sm" />
+          <button class="btn-primary btn-sm" onclick="addSavingsGoal('person2')">+</button>
+        </div>
+      </div>
+      <div class="finance-grid" style="margin-top:1.5rem">
+        <div class="finance-panel">
+          <h3 class="panel-heading">📊 Expense Breakdown</h3>
+          <div id="expense-chart-p2"></div>
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading">📈 Savings Projection</h3>
+          <div id="savings-projection-p2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Combined Section -->
+    <div id="fin-combined" class="person-section">
+      <div id="combined-content"></div>
+
+      <!-- Shared Goals -->
+      <div class="finance-panel" style="margin-top:1.5rem">
+        <h3 class="panel-heading">💍 Shared Savings Goals</h3>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Goals you're both saving towards together. Each person tracks their own contribution.</p>
+        <div id="shared-goals-list"></div>
+        <div class="fin-add-row" style="margin-top:.75rem">
+          <input type="text" id="shared-goal-name" placeholder="Goal (e.g. Wedding)" class="fin-input" />
+          <input type="number" id="shared-goal-target" placeholder="Total Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="date" id="shared-goal-deadline" class="fin-input fin-input-sm" />
+          <button class="btn-primary btn-sm" onclick="addSharedGoal()">+</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </main>
@@ -781,6 +1173,7 @@
     btn.classList.add('active');
     if (name === 'timeline') renderTimeline();
     if (name === 'budget') renderBudget();
+    if (name === 'finance') renderFinance();
   }
 
   // ── Render Cards ─────────────────────────────────────────
@@ -805,6 +1198,13 @@
     if (!str) return '';
     const d = new Date(str + 'T00:00:00');
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function formatDateTime(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+      + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   }
 
   function daysLeft(target) {
@@ -849,8 +1249,8 @@
             <span style="color:${(d.spent||0)>d.budget?'var(--accent)':'var(--success)'}">Spent: $${Number(d.spent||0).toLocaleString()}</span>
           </div>` : ''}
           <div class="card-footer">
-            <span>${d.target ? '🎯 ' + formatDate(d.target) : ''}</span>
-            <span>${d.target ? daysLeft(d.target) : ''}</span>
+            <span>${d.createdAt ? '📌 ' + formatDateTime(d.createdAt) : ''}</span>
+            <span>${d.target ? '🎯 ' + formatDate(d.target) + ' · ' + daysLeft(d.target) : ''}</span>
           </div>
         </div>
       `).join('');
@@ -1161,6 +1561,537 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeModal(); closeConfirm(); }
   });
+
+  // ── Financial Plan (Dual Person) ─────────────────────
+  const FIN_KEY = 'dreamplan_finance_v2';
+
+  function defaultFinData() {
+    return {
+      names: { person1: '', person2: '' },
+      person1: { income: [], expenses: [], goals: [] },
+      person2: { income: [], expenses: [], goals: [] },
+      sharedGoals: []
+    };
+  }
+
+  function loadFinance() {
+    try {
+      let data = JSON.parse(localStorage.getItem(FIN_KEY));
+      if (data) return data;
+
+      // Migrate from v1 (single-person) if it exists
+      const v1 = JSON.parse(localStorage.getItem('dreamplan_finance_v1'));
+      if (v1 && (v1.income?.length || v1.expenses?.length || v1.goals?.length)) {
+        const migrated = defaultFinData();
+        migrated.person1.income = v1.income || [];
+        migrated.person1.expenses = v1.expenses || [];
+        migrated.person1.goals = v1.goals || [];
+        localStorage.setItem(FIN_KEY, JSON.stringify(migrated));
+        return migrated;
+      }
+
+      return defaultFinData();
+    } catch { return defaultFinData(); }
+  }
+
+  function saveFinance(data) {
+    localStorage.setItem(FIN_KEY, JSON.stringify(data));
+  }
+
+  let finData = loadFinance();
+  let activePerson = 'person1';
+
+  function getPersonName(key) {
+    return finData.names[key] || (key === 'person1' ? 'Person 1' : 'Person 2');
+  }
+
+  function savePersonNames() {
+    finData.names.person1 = document.getElementById('name-person1').value.trim();
+    finData.names.person2 = document.getElementById('name-person2').value.trim();
+    saveFinance(finData);
+    document.getElementById('person1-tab-name').textContent = getPersonName('person1');
+    document.getElementById('person2-tab-name').textContent = getPersonName('person2');
+  }
+
+  function switchPerson(person, btn) {
+    activePerson = person;
+    document.querySelectorAll('.person-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.person-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('fin-' + person).classList.add('active');
+    // Hide name editor on combined view
+    document.getElementById('person-name-editor').style.display = person === 'combined' ? 'none' : '';
+    if (person === 'combined') renderCombined();
+  }
+
+  function sfx(person) { return person === 'person1' ? '-p1' : '-p2'; }
+
+  function addIncome(person) {
+    const s = sfx(person);
+    const name = document.getElementById('income-name' + s).value.trim();
+    const amount = parseFloat(document.getElementById('income-amount' + s).value);
+    if (!name || !amount) return showToast('Enter income source and amount');
+    finData[person].income.push({ id: Date.now().toString(36), name, amount });
+    saveFinance(finData);
+    document.getElementById('income-name' + s).value = '';
+    document.getElementById('income-amount' + s).value = '';
+    renderPersonFinance(person);
+    showToast('Income added!');
+  }
+
+  function addExpense(person) {
+    const s = sfx(person);
+    const name = document.getElementById('expense-name' + s).value.trim();
+    const amount = parseFloat(document.getElementById('expense-amount' + s).value);
+    const category = document.getElementById('expense-cat' + s).value;
+    if (!name || !amount) return showToast('Enter expense name and amount');
+    finData[person].expenses.push({ id: Date.now().toString(36), name, amount, category });
+    saveFinance(finData);
+    document.getElementById('expense-name' + s).value = '';
+    document.getElementById('expense-amount' + s).value = '';
+    renderPersonFinance(person);
+    showToast('Expense added!');
+  }
+
+  function addSavingsGoal(person) {
+    const s = sfx(person);
+    const name = document.getElementById('goal-name' + s).value.trim();
+    const target = parseFloat(document.getElementById('goal-target' + s).value);
+    const saved = parseFloat(document.getElementById('goal-saved' + s).value) || 0;
+    const deadline = document.getElementById('goal-deadline' + s).value;
+    if (!name || !target) return showToast('Enter goal name and target amount');
+    finData[person].goals.push({ id: Date.now().toString(36), name, target, saved, deadline });
+    saveFinance(finData);
+    document.getElementById('goal-name' + s).value = '';
+    document.getElementById('goal-target' + s).value = '';
+    document.getElementById('goal-saved' + s).value = '';
+    document.getElementById('goal-deadline' + s).value = '';
+    renderPersonFinance(person);
+    showToast('Savings goal added!');
+  }
+
+  function deleteFinEntry(person, type, id) {
+    finData[person][type] = finData[person][type].filter(x => x.id !== id);
+    saveFinance(finData);
+    renderPersonFinance(person);
+  }
+
+  const chartColors = ['#6366f1','#22c55e','#f59e0b','#3b82f6','#ec4899','#f97316','#8b5cf6','#10b981','#64748b'];
+
+  function renderPersonFinance(person) {
+    const s = sfx(person);
+    const pd = finData[person];
+    const totalIncome = pd.income.reduce((sum, i) => sum + i.amount, 0);
+    const totalExpenses = pd.expenses.reduce((sum, e) => sum + e.amount, 0);
+    const monthlySavings = totalIncome - totalExpenses;
+    const annualSavings = monthlySavings * 12;
+
+    // Income list
+    document.getElementById('income-list' + s).innerHTML = pd.income.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:.5rem">No income sources added yet</div>'
+      : pd.income.map(i => `
+        <div class="fin-entry">
+          <span class="name">${escHtml(i.name)}</span>
+          <span class="amount" style="color:var(--success)">$${i.amount.toLocaleString()}</span>
+          <button class="del-btn" onclick="deleteFinEntry('${person}','income','${i.id}')">✕</button>
+        </div>`).join('');
+    document.getElementById('income-total' + s).textContent = '$' + totalIncome.toLocaleString();
+
+    // Expense list
+    document.getElementById('expense-list' + s).innerHTML = pd.expenses.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:.5rem">No expenses added yet</div>'
+      : pd.expenses.map(e => `
+        <div class="fin-entry">
+          <span class="name">${escHtml(e.name)}</span>
+          <span class="cat-tag">${escHtml(e.category)}</span>
+          <span class="amount" style="color:var(--accent)">$${e.amount.toLocaleString()}</span>
+          <button class="del-btn" onclick="deleteFinEntry('${person}','expenses','${e.id}')">✕</button>
+        </div>`).join('');
+    document.getElementById('expense-total' + s).textContent = '$' + totalExpenses.toLocaleString();
+
+    // Summary cards
+    document.getElementById('finance-summary' + s).innerHTML = `
+      <div class="budget-summary-card">
+        <div class="amount green">$${totalIncome.toLocaleString()}</div>
+        <div class="label">Monthly Income</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount red">$${totalExpenses.toLocaleString()}</div>
+        <div class="label">Monthly Expenses</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount ${monthlySavings >= 0 ? 'green' : 'red'}">
+          ${monthlySavings < 0 ? '-' : ''}$${Math.abs(monthlySavings).toLocaleString()}
+        </div>
+        <div class="label">Monthly Savings</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount ${annualSavings >= 0 ? 'green' : 'red'}">
+          ${annualSavings < 0 ? '-' : ''}$${Math.abs(annualSavings).toLocaleString()}
+        </div>
+        <div class="label">Annual Savings</div>
+      </div>`;
+
+    // Savings goals
+    document.getElementById('savings-goals-list' + s).innerHTML = pd.goals.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:.5rem 0">No savings goals yet</div>'
+      : pd.goals.map(g => {
+        const pct = g.target > 0 ? Math.min((g.saved / g.target) * 100, 100) : 0;
+        const remaining = g.target - g.saved;
+        let monthlyNeeded = '';
+        if (g.deadline && remaining > 0) {
+          const months = Math.max(1, Math.ceil((new Date(g.deadline + 'T00:00:00') - new Date()) / (30.44 * 86400000)));
+          monthlyNeeded = `Save $${Math.ceil(remaining / months).toLocaleString()}/mo to reach goal`;
+        }
+        return `
+          <div class="savings-goal-card">
+            <div class="savings-goal-header">
+              <span class="name">${escHtml(g.name)}</span>
+              <div style="display:flex;align-items:center;gap:.5rem">
+                ${g.deadline ? `<span class="deadline">📅 ${formatDate(g.deadline)}</span>` : ''}
+                <button class="del-btn" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem" onclick="deleteFinEntry('${person}','goals','${g.id}')">✕</button>
+              </div>
+            </div>
+            <div class="savings-goal-amounts">
+              <span>Target: $${g.target.toLocaleString()}</span>
+              <span class="saved">Saved: $${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:${pct}%;background:${pct >= 100 ? 'var(--success)' : 'linear-gradient(90deg, var(--info), var(--accent3))'}"></div>
+            </div>
+            ${monthlyNeeded ? `<div class="savings-monthly">⏳ ${monthlyNeeded}</div>` : ''}
+          </div>`;
+      }).join('');
+
+    // Expense breakdown chart
+    const expByCat = {};
+    pd.expenses.forEach(e => { expByCat[e.category] = (expByCat[e.category] || 0) + e.amount; });
+    const expEntries = Object.entries(expByCat).sort((a, b) => b[1] - a[1]);
+    const maxExp = Math.max(...expEntries.map(([, v]) => v), 1);
+
+    document.getElementById('expense-chart' + s).innerHTML = expEntries.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0;text-align:center">Add expenses to see breakdown</div>'
+      : expEntries.map(([cat, val], i) => {
+        const pct = (val / totalExpenses * 100).toFixed(1);
+        const barW = (val / maxExp * 100);
+        return `<div class="chart-bar-row">
+            <span class="chart-bar-label">${cat}</span>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">$${val.toLocaleString()} (${pct}%)</div>
+            </div>
+          </div>`;
+      }).join('');
+
+    // Savings projection
+    const projEl = document.getElementById('savings-projection' + s);
+    if (monthlySavings === 0 && totalIncome === 0) {
+      projEl.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0;text-align:center">Add income and expenses to see projection</div>';
+    } else {
+      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const now = new Date();
+      let cumulative = 0, rows = '';
+      for (let i = 0; i < 12; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        cumulative += monthlySavings;
+        rows += `<div class="projection-row">
+            <span class="month">${monthNames[d.getMonth()]} ${d.getFullYear()}</span>
+            <span class="value ${cumulative >= 0 ? 'positive' : 'negative'}">${cumulative < 0 ? '-' : ''}$${Math.abs(Math.round(cumulative)).toLocaleString()}</span>
+          </div>`;
+      }
+      projEl.innerHTML = `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Projected cumulative savings over 12 months at $${monthlySavings.toLocaleString()}/mo</div>${rows}`;
+    }
+  }
+
+  // ── Shared Goals ─────────────────────────────────────
+  function addSharedGoal() {
+    const name = document.getElementById('shared-goal-name').value.trim();
+    const target = parseFloat(document.getElementById('shared-goal-target').value);
+    const deadline = document.getElementById('shared-goal-deadline').value;
+    if (!name || !target) return showToast('Enter goal name and target amount');
+    if (!finData.sharedGoals) finData.sharedGoals = [];
+    finData.sharedGoals.push({
+      id: Date.now().toString(36),
+      name, target, deadline,
+      person1Saved: 0,
+      person2Saved: 0
+    });
+    saveFinance(finData);
+    document.getElementById('shared-goal-name').value = '';
+    document.getElementById('shared-goal-target').value = '';
+    document.getElementById('shared-goal-deadline').value = '';
+    renderCombined();
+    showToast('Shared goal added!');
+  }
+
+  function deleteSharedGoal(id) {
+    finData.sharedGoals = finData.sharedGoals.filter(g => g.id !== id);
+    saveFinance(finData);
+    renderCombined();
+  }
+
+  function updateSharedContribution(id, person, value) {
+    const g = finData.sharedGoals.find(x => x.id === id);
+    if (!g) return;
+    g[person + 'Saved'] = parseFloat(value) || 0;
+    saveFinance(finData);
+    renderCombined();
+  }
+
+  function renderCombined() {
+    const p1 = finData.person1, p2 = finData.person2;
+    const n1 = getPersonName('person1'), n2 = getPersonName('person2');
+    const inc1 = p1.income.reduce((s, i) => s + i.amount, 0);
+    const inc2 = p2.income.reduce((s, i) => s + i.amount, 0);
+    const exp1 = p1.expenses.reduce((s, e) => s + e.amount, 0);
+    const exp2 = p2.expenses.reduce((s, e) => s + e.amount, 0);
+    const totalInc = inc1 + inc2, totalExp = exp1 + exp2;
+    const totalSavings = totalInc - totalExp;
+    const annualSavings = totalSavings * 12;
+
+    // Merge expenses by category
+    const expByCat = {};
+    [...p1.expenses, ...p2.expenses].forEach(e => {
+      expByCat[e.category] = (expByCat[e.category] || 0) + e.amount;
+    });
+    const expEntries = Object.entries(expByCat).sort((a, b) => b[1] - a[1]);
+    const maxExp = Math.max(...expEntries.map(([, v]) => v), 1);
+
+    // Personal goals with owner labels
+    const personalGoals = [
+      ...p1.goals.map(g => ({ ...g, owner: n1 })),
+      ...p2.goals.map(g => ({ ...g, owner: n2 }))
+    ];
+
+    const el = document.getElementById('combined-content');
+    el.innerHTML = `
+      <!-- Combined Summary -->
+      <div class="budget-summary">
+        <div class="budget-summary-card">
+          <div class="amount green">$${totalInc.toLocaleString()}</div>
+          <div class="label">Combined Income</div>
+        </div>
+        <div class="budget-summary-card">
+          <div class="amount red">$${totalExp.toLocaleString()}</div>
+          <div class="label">Combined Expenses</div>
+        </div>
+        <div class="budget-summary-card">
+          <div class="amount ${totalSavings >= 0 ? 'green' : 'red'}">
+            ${totalSavings < 0 ? '-' : ''}$${Math.abs(totalSavings).toLocaleString()}
+          </div>
+          <div class="label">Combined Monthly Savings</div>
+        </div>
+        <div class="budget-summary-card">
+          <div class="amount ${annualSavings >= 0 ? 'green' : 'red'}">
+            ${annualSavings < 0 ? '-' : ''}$${Math.abs(annualSavings).toLocaleString()}
+          </div>
+          <div class="label">Combined Annual Savings</div>
+        </div>
+      </div>
+
+      <!-- Side by Side Comparison -->
+      <div class="finance-grid" style="margin-top:1.5rem">
+        <div class="finance-panel">
+          <h3 class="panel-heading" style="color:#6366f1">👤 ${escHtml(n1)}</h3>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
+            <span style="color:var(--muted);font-size:.88rem">Income</span>
+            <span style="color:var(--success);font-weight:600">$${inc1.toLocaleString()}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
+            <span style="color:var(--muted);font-size:.88rem">Expenses</span>
+            <span style="color:var(--accent);font-weight:600">$${exp1.toLocaleString()}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-top:.5rem;border-top:1px solid var(--border)">
+            <span style="font-weight:600;font-size:.88rem">Net Savings</span>
+            <span style="color:${(inc1 - exp1) >= 0 ? 'var(--success)' : 'var(--accent)'};font-weight:700">
+              ${(inc1 - exp1) < 0 ? '-' : ''}$${Math.abs(inc1 - exp1).toLocaleString()}
+            </span>
+          </div>
+          ${inc1 > 0 ? `<div style="margin-top:.75rem">
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem">Savings rate: ${Math.round((inc1 - exp1) / inc1 * 100)}%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, (inc1 - exp1) / inc1 * 100))}%;background:#6366f1"></div></div>
+          </div>` : ''}
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading" style="color:#ec4899">👤 ${escHtml(n2)}</h3>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
+            <span style="color:var(--muted);font-size:.88rem">Income</span>
+            <span style="color:var(--success);font-weight:600">$${inc2.toLocaleString()}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
+            <span style="color:var(--muted);font-size:.88rem">Expenses</span>
+            <span style="color:var(--accent);font-weight:600">$${exp2.toLocaleString()}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-top:.5rem;border-top:1px solid var(--border)">
+            <span style="font-weight:600;font-size:.88rem">Net Savings</span>
+            <span style="color:${(inc2 - exp2) >= 0 ? 'var(--success)' : 'var(--accent)'};font-weight:700">
+              ${(inc2 - exp2) < 0 ? '-' : ''}$${Math.abs(inc2 - exp2).toLocaleString()}
+            </span>
+          </div>
+          ${inc2 > 0 ? `<div style="margin-top:.75rem">
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem">Savings rate: ${Math.round((inc2 - exp2) / inc2 * 100)}%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, (inc2 - exp2) / inc2 * 100))}%;background:#ec4899"></div></div>
+          </div>` : ''}
+        </div>
+      </div>
+
+      <!-- Combined Expense Breakdown -->
+      <div class="finance-grid" style="margin-top:1.5rem">
+        <div class="finance-panel">
+          <h3 class="panel-heading">📊 Combined Expense Breakdown</h3>
+          ${expEntries.length === 0
+            ? '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0;text-align:center">No expenses yet</div>'
+            : expEntries.map(([cat, val], i) => {
+              const pct = (val / totalExp * 100).toFixed(1);
+              const barW = (val / maxExp * 100);
+              return `<div class="chart-bar-row">
+                <span class="chart-bar-label">${cat}</span>
+                <div class="chart-bar-track">
+                  <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">$${val.toLocaleString()} (${pct}%)</div>
+                </div>
+              </div>`;
+            }).join('')}
+        </div>
+        <div class="finance-panel">
+          <h3 class="panel-heading">📈 Combined Savings Projection</h3>
+          ${totalSavings === 0 && totalInc === 0
+            ? '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0;text-align:center">Add income and expenses to see projection</div>'
+            : (() => {
+              const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              const now = new Date();
+              let cum = 0, rows = '';
+              for (let i = 0; i < 12; i++) {
+                const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+                cum += totalSavings;
+                rows += `<div class="projection-row">
+                  <span class="month">${monthNames[d.getMonth()]} ${d.getFullYear()}</span>
+                  <span class="value ${cum >= 0 ? 'positive' : 'negative'}">${cum < 0 ? '-' : ''}$${Math.abs(Math.round(cum)).toLocaleString()}</span>
+                </div>`;
+              }
+              return `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Combined projection at $${totalSavings.toLocaleString()}/mo</div>${rows}`;
+            })()}
+        </div>
+      </div>
+
+      <!-- Personal Goals (individual) -->
+      ${personalGoals.length > 0 ? `
+      <div class="finance-panel" style="margin-top:1.5rem">
+        <h3 class="panel-heading">🎯 Personal Goals</h3>
+        ${personalGoals.map(g => {
+          const pct = g.target > 0 ? Math.min((g.saved / g.target) * 100, 100) : 0;
+          return `
+          <div class="savings-goal-card">
+            <div class="savings-goal-header">
+              <span class="name">${escHtml(g.name)} <span style="font-size:.75rem;color:var(--muted);font-weight:400">— ${escHtml(g.owner)} only</span></span>
+              ${g.deadline ? `<span class="deadline">📅 ${formatDate(g.deadline)}</span>` : ''}
+            </div>
+            <div class="savings-goal-amounts">
+              <span>Target: $${g.target.toLocaleString()}</span>
+              <span class="saved">Saved: $${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:${pct}%;background:${pct >= 100 ? 'var(--success)' : 'linear-gradient(90deg, var(--info), var(--accent3))'}"></div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+    `;
+
+    // Render shared goals (separate so inputs persist)
+    renderSharedGoals();
+  }
+
+  function renderSharedGoals() {
+    if (!finData.sharedGoals) finData.sharedGoals = [];
+    const n1 = getPersonName('person1'), n2 = getPersonName('person2');
+    const list = document.getElementById('shared-goals-list');
+
+    if (finData.sharedGoals.length === 0) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:.5rem 0">No shared goals yet. Add goals you\'re both saving for together.</div>';
+      return;
+    }
+
+    list.innerHTML = finData.sharedGoals.map(g => {
+      const totalSaved = (g.person1Saved || 0) + (g.person2Saved || 0);
+      const pct = g.target > 0 ? Math.min((totalSaved / g.target) * 100, 100) : 0;
+      const remaining = g.target - totalSaved;
+      const p1Pct = totalSaved > 0 ? ((g.person1Saved || 0) / totalSaved * 100).toFixed(0) : 0;
+      const p2Pct = totalSaved > 0 ? ((g.person2Saved || 0) / totalSaved * 100).toFixed(0) : 0;
+
+      let monthlyNeeded = '';
+      if (g.deadline && remaining > 0) {
+        const months = Math.max(1, Math.ceil((new Date(g.deadline + 'T00:00:00') - new Date()) / (30.44 * 86400000)));
+        const perMonth = Math.ceil(remaining / months);
+        monthlyNeeded = `$${perMonth.toLocaleString()}/mo needed ($${Math.ceil(perMonth / 2).toLocaleString()} each if split equally)`;
+      }
+
+      return `
+        <div class="shared-goal-card">
+          <div class="goal-title-row">
+            <span class="name">💍 ${escHtml(g.name)}</span>
+            <div style="display:flex;align-items:center;gap:.5rem">
+              ${g.deadline ? `<span style="font-size:.78rem;color:var(--muted)">📅 ${formatDate(g.deadline)}</span>` : ''}
+              <button class="del-btn" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.2rem .35rem;border-radius:4px" onclick="deleteSharedGoal('${g.id}')">✕</button>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:.4rem">
+            <span style="color:var(--muted)">Target: <strong style="color:var(--text)">$${g.target.toLocaleString()}</strong></span>
+            <span style="color:var(--success);font-weight:600">Saved: $${totalSaved.toLocaleString()} (${Math.round(pct)}%)</span>
+          </div>
+
+          <div class="progress-bar" style="height:10px;margin-bottom:.15rem">
+            <div style="height:100%;display:flex;border-radius:99px;overflow:hidden">
+              <div style="width:${g.target > 0 ? (g.person1Saved || 0) / g.target * 100 : 0}%;background:#6366f1;transition:width .4s"></div>
+              <div style="width:${g.target > 0 ? (g.person2Saved || 0) / g.target * 100 : 0}%;background:#ec4899;transition:width .4s"></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:.6rem">
+            <span><span style="display:inline-block;width:8px;height:8px;background:#6366f1;border-radius:50%;margin-right:3px"></span>${escHtml(n1)}</span>
+            <span><span style="display:inline-block;width:8px;height:8px;background:#ec4899;border-radius:50%;margin-right:3px"></span>${escHtml(n2)}</span>
+          </div>
+
+          <div class="shared-contributions">
+            <div class="contrib-card">
+              <div class="person-label" style="color:#6366f1">👤 ${escHtml(n1)}'s contribution</div>
+              <div class="contrib-amount">$${(g.person1Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p1Pct}%)</span></div>
+              <div style="margin-top:.4rem">
+                <input type="number" min="0" step="0.01" value="${g.person1Saved || 0}" placeholder="Amount saved"
+                  style="width:100%;padding:.35rem .5rem;font-size:.82rem;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;outline:none"
+                  onchange="updateSharedContribution('${g.id}','person1',this.value)" />
+              </div>
+            </div>
+            <div class="contrib-card">
+              <div class="person-label" style="color:#ec4899">👤 ${escHtml(n2)}'s contribution</div>
+              <div class="contrib-amount">$${(g.person2Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p2Pct}%)</span></div>
+              <div style="margin-top:.4rem">
+                <input type="number" min="0" step="0.01" value="${g.person2Saved || 0}" placeholder="Amount saved"
+                  style="width:100%;padding:.35rem .5rem;font-size:.82rem;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;outline:none"
+                  onchange="updateSharedContribution('${g.id}','person2',this.value)" />
+              </div>
+            </div>
+          </div>
+
+          ${remaining > 0 ? `<div style="font-size:.82rem;color:var(--muted);margin-top:.3rem">
+            💰 Remaining: <strong style="color:var(--warning)">$${remaining.toLocaleString()}</strong>
+            ${monthlyNeeded ? `<br>⏳ ${monthlyNeeded}` : ''}
+          </div>` : '<div style="font-size:.88rem;color:var(--success);font-weight:600;margin-top:.3rem">🎉 Goal reached!</div>'}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderFinance() {
+    // Ensure sharedGoals exists (migration from v1 data)
+    if (!finData.sharedGoals) finData.sharedGoals = [];
+    // Load names
+    document.getElementById('name-person1').value = finData.names.person1 || '';
+    document.getElementById('name-person2').value = finData.names.person2 || '';
+    document.getElementById('person1-tab-name').textContent = getPersonName('person1');
+    document.getElementById('person2-tab-name').textContent = getPersonName('person2');
+    renderPersonFinance('person1');
+    renderPersonFinance('person2');
+    if (activePerson === 'combined') renderCombined();
+  }
 
   // ── Init ─────────────────────────────────────────────────
   renderDreams();
