@@ -1818,6 +1818,8 @@
           })() : ''}
           ${d.loan ? (() => {
             const l = d.loan;
+            if (!l.emi) { const c = calcLoan(l.amount, l.rate, l.months); l.emi = c.emi; l.totalInterest = c.totalInterest; l.totalPayable = c.totalPayable; }
+            if (!l.startDate) l.startDate = '';
             const livePaidCount = calcPaidCount(l.startDate, l.months);
             const schedule = buildAmortization(l.amount, l.rate, l.months, l.startDate);
             const liveCapitalPaid = schedule.slice(0, livePaidCount).reduce((s, r) => s + r.capitalDemand, 0);
