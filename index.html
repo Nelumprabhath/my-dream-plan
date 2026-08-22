@@ -663,6 +663,51 @@
       color: var(--muted);
     }
     .loan-preview .lp-row .lp-val { font-weight: 600; color: var(--text); }
+    .installment-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .installment-table th {
+      background: rgba(255,152,0,0.15);
+      color: var(--warning);
+      padding: 0.5rem 0.6rem;
+      text-align: right;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .installment-table th:first-child { text-align: center; }
+    .installment-table td {
+      padding: 0.4rem 0.6rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: right;
+      color: var(--muted);
+    }
+    .installment-table td:first-child { text-align: center; }
+    .installment-table tr.paid-row td { color: var(--text); }
+    .installment-table tr.paid-row td:first-child::before { content: '✓ '; color: var(--success); }
+    .installment-table .tfoot-row td {
+      font-weight: 700;
+      color: var(--text);
+      border-top: 2px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+    .installment-scroll { max-height: 250px; overflow-y: auto; }
+    .card-loan-schedule { margin-top: 0.6rem; }
+    .card-loan-schedule summary {
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: var(--info);
+      font-weight: 600;
+      padding: 0.3rem 0;
+    }
+    .card-loan-schedule summary:hover { color: var(--text); }
 
     /* ── Wedding Plan ── */
     .wedding-sides {
@@ -1439,18 +1484,21 @@
           </div>
           <div class="form-group">
             <label>Interest Rate (% per year)</label>
-            <input type="number" id="f-loan-rate" min="0" step="0.01" placeholder="e.g. 12" oninput="calcLoanPreview()" />
+            <input type="number" id="f-loan-rate" min="0" step="0.01" placeholder="e.g. 14.75" oninput="calcLoanPreview()" />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Duration (months)</label>
+            <label>Loan Period (months)</label>
             <input type="number" id="f-loan-months" min="1" step="1" placeholder="e.g. 36" oninput="calcLoanPreview()" />
           </div>
           <div class="form-group">
-            <label>Amount Paid (Rs)</label>
-            <input type="number" id="f-loan-paid" min="0" step="0.01" placeholder="0.00" oninput="calcLoanPreview()" />
+            <label>First Installment Date</label>
+            <input type="date" id="f-loan-start-date" oninput="calcLoanPreview()" />
           </div>
+        </div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem .7rem;background:rgba(255,255,255,0.03);border-radius:8px">
+          ℹ️ Installments paid will be <strong style="color:var(--text)">auto-calculated</strong> based on today's date from the first installment date (bank auto-deduct).
         </div>
         <div id="f-loan-preview" class="loan-preview" style="display:none"></div>
       </div>
@@ -1541,42 +1589,122 @@
   }
 
   function calcLoan(amount, rate, months) {
-    const totalInterest = amount * (rate / 100) * (months / 12);
-    const totalPayable = amount + totalInterest;
-    const monthlyEMI = months > 0 ? totalPayable / months : 0;
-    return { totalInterest, totalPayable, monthlyEMI };
+    const r = rate / 100 / 12; // monthly interest rate
+    let emi, totalPayable, totalInterest;
+    if (r === 0) {
+      emi = months > 0 ? amount / months : 0;
+      totalPayable = amount;
+      totalInterest = 0;
+    } else {
+      emi = amount * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+      totalPayable = emi * months;
+      totalInterest = totalPayable - amount;
+    }
+    return { emi, totalPayable, totalInterest };
+  }
+
+  function buildAmortization(amount, rate, months, startDate) {
+    const r = rate / 100 / 12;
+    const { emi } = calcLoan(amount, rate, months);
+    const schedule = [];
+    let balance = amount;
+    const start = startDate ? new Date(startDate + 'T00:00:00') : new Date();
+
+    for (let i = 0; i < months; i++) {
+      const interestDemand = balance * r;
+      const capitalDemand = emi - interestDemand;
+      balance -= capitalDemand;
+      const dueDate = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
+      schedule.push({
+        month: i + 1,
+        dueDate,
+        capitalDemand: Math.round(capitalDemand * 100) / 100,
+        interestDemand: Math.round(interestDemand * 100) / 100,
+        emi: Math.round(emi * 100) / 100,
+        balance: Math.max(0, Math.round(balance * 100) / 100)
+      });
+    }
+    return schedule;
+  }
+
+  function fmtLoanDate(d) {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    return dd + '-' + mm + '-' + d.getFullYear();
+  }
+
+  function calcPaidCount(startDate, months) {
+    if (!startDate || !months) return 0;
+    const start = new Date(startDate + 'T00:00:00');
+    const now = new Date();
+    let count = 0;
+    for (let i = 0; i < months; i++) {
+      const dueDate = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
+      if (dueDate <= now) count++;
+      else break;
+    }
+    return count;
   }
 
   function calcLoanPreview() {
     const amount = parseFloat(document.getElementById('f-loan-amount').value) || 0;
     const rate = parseFloat(document.getElementById('f-loan-rate').value) || 0;
     const months = parseInt(document.getElementById('f-loan-months').value) || 0;
-    const paid = parseFloat(document.getElementById('f-loan-paid').value) || 0;
+    const startDate = document.getElementById('f-loan-start-date').value;
+    const paidCount = calcPaidCount(startDate, months);
     const preview = document.getElementById('f-loan-preview');
 
     if (!amount || !months) { preview.style.display = 'none'; return; }
 
-    const { totalInterest, totalPayable, monthlyEMI } = calcLoan(amount, rate, months);
-    const remaining = Math.max(0, totalPayable - paid);
-    const paidPct = totalPayable > 0 ? Math.min((paid / totalPayable) * 100, 100) : 0;
+    const { emi, totalPayable, totalInterest } = calcLoan(amount, rate, months);
+    const schedule = buildAmortization(amount, rate, months, startDate);
+
+    const totalPaidAmount = schedule.slice(0, paidCount).reduce((s, r) => s + r.emi, 0);
+    const capitalPaid = schedule.slice(0, paidCount).reduce((s, r) => s + r.capitalDemand, 0);
+    const interestPaid = schedule.slice(0, paidCount).reduce((s, r) => s + r.interestDemand, 0);
+    const outstanding = paidCount < months ? schedule[paidCount - 1]?.balance ?? amount : 0;
+    const paidPct = months > 0 ? Math.min((paidCount / months) * 100, 100) : 0;
+
+    const scheduleRows = schedule.map((r, i) => `
+      <tr class="${i < paidCount ? 'paid-row' : ''}">
+        <td>${fmtLoanDate(r.dueDate)}</td>
+        <td>Rs ${r.capitalDemand.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td>Rs ${r.interestDemand.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td style="font-weight:600">Rs ${r.emi.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td>Rs ${r.balance.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      </tr>
+    `).join('');
 
     preview.style.display = 'block';
     preview.innerHTML = `
       <div class="lp-title">Loan Summary</div>
-      <div class="lp-row"><span>Loan Amount</span><span class="lp-val">Rs ${amount.toLocaleString()}</span></div>
+      <div class="lp-row"><span>Loan Amount</span><span class="lp-val">Rs ${amount.toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
+      <div class="lp-row"><span>Interest Rate</span><span class="lp-val">${rate}%</span></div>
+      <div class="lp-row"><span>Loan Period</span><span class="lp-val">${months} months</span></div>
+      <div class="lp-row"><span>Monthly Installment (EMI)</span><span class="lp-val" style="color:var(--info)">Rs ${Math.round(emi).toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
       <div class="lp-row"><span>Total Interest</span><span class="lp-val" style="color:var(--accent)">Rs ${Math.round(totalInterest).toLocaleString()}</span></div>
       <div class="lp-row"><span>Total Payable</span><span class="lp-val" style="color:var(--warning)">Rs ${Math.round(totalPayable).toLocaleString()}</span></div>
-      <div class="lp-row"><span>Monthly EMI</span><span class="lp-val">Rs ${Math.round(monthlyEMI).toLocaleString()}</span></div>
-      <div class="lp-row"><span>Paid</span><span class="lp-val" style="color:var(--success)">Rs ${paid.toLocaleString()}</span></div>
-      <div class="lp-row"><span>Remaining</span><span class="lp-val" style="color:var(--warning)">Rs ${Math.round(remaining).toLocaleString()}</span></div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:.5rem 0">
+      <div class="lp-row"><span>Installments Paid</span><span class="lp-val" style="color:var(--success)">${paidCount} / ${months}</span></div>
+      <div class="lp-row"><span>Capital Paid</span><span class="lp-val" style="color:var(--success)">Rs ${Math.round(capitalPaid).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Interest Paid</span><span class="lp-val" style="color:var(--accent)">Rs ${Math.round(interestPaid).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Total Paid</span><span class="lp-val" style="color:var(--success)">Rs ${Math.round(totalPaidAmount).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Current Outstanding</span><span class="lp-val" style="color:var(--warning);font-size:1.05rem">Rs ${outstanding.toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
       <div style="margin-top:.5rem">
         <div style="background:rgba(255,255,255,0.08);border-radius:99px;height:8px;overflow:hidden">
           <div style="width:${paidPct}%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--success),#22c55e);transition:width .5s"></div>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:.25rem">
-          <span>Paid: ${Math.round(paidPct)}%</span>
-          <span>Remaining: ${Math.round(100 - paidPct)}%</span>
+          <span>Paid: ${paidCount} installments</span>
+          <span>Remaining: ${months - paidCount} installments</span>
         </div>
+      </div>
+      <div style="margin-top:.75rem;font-weight:600;font-size:.85rem;color:var(--warning)">Installment Schedule</div>
+      <div class="installment-scroll">
+        <table class="installment-table">
+          <thead><tr><th>Due Date</th><th>Capital</th><th>Interest</th><th>EMI</th><th>Balance</th></tr></thead>
+          <tbody>${scheduleRows}</tbody>
+        </table>
       </div>
     `;
   }
@@ -1690,27 +1818,53 @@
           })() : ''}
           ${d.loan ? (() => {
             const l = d.loan;
-            const remaining = Math.max(0, l.totalPayable - l.paid);
-            const paidPct = l.totalPayable > 0 ? Math.min((l.paid / l.totalPayable) * 100, 100) : 0;
+            const livePaidCount = calcPaidCount(l.startDate, l.months);
+            const schedule = buildAmortization(l.amount, l.rate, l.months, l.startDate);
+            const liveCapitalPaid = schedule.slice(0, livePaidCount).reduce((s, r) => s + r.capitalDemand, 0);
+            const liveInterestPaid = schedule.slice(0, livePaidCount).reduce((s, r) => s + r.interestDemand, 0);
+            const liveTotalPaid = liveCapitalPaid + liveInterestPaid;
+            const liveOutstanding = livePaidCount > 0 && livePaidCount <= l.months ? schedule[livePaidCount - 1].balance : l.amount;
+            const paidPct = l.months > 0 ? Math.min((livePaidCount / l.months) * 100, 100) : 0;
+            const scheduleRows = schedule.map((r, i) => `
+              <tr class="${i < livePaidCount ? 'paid-row' : ''}">
+                <td>${fmtLoanDate(r.dueDate)}</td>
+                <td>Rs ${r.capitalDemand.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                <td>Rs ${r.interestDemand.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                <td style="font-weight:600">Rs ${r.emi.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                <td>Rs ${r.balance.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+              </tr>`).join('');
             return `<div class="card-loan">
               <div class="loan-title">🏦 Loan · ${l.months} months · ${l.rate}%</div>
               <div class="loan-grid">
-                <div class="loan-item"><span>Loan Amount</span><span class="loan-val">Rs ${l.amount.toLocaleString()}</span></div>
-                <div class="loan-item"><span>Interest</span><span class="loan-val interest">Rs ${l.totalInterest.toLocaleString()}</span></div>
-                <div class="loan-item"><span>Total Payable</span><span class="loan-val">Rs ${l.totalPayable.toLocaleString()}</span></div>
-                <div class="loan-item"><span>Monthly EMI</span><span class="loan-val">Rs ${l.monthlyEMI.toLocaleString()}</span></div>
-                <div class="loan-item"><span>Paid</span><span class="loan-val paid">Rs ${l.paid.toLocaleString()}</span></div>
-                <div class="loan-item"><span>Remaining</span><span class="loan-val remain">Rs ${remaining.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Loan Amount</span><span class="loan-val">Rs ${l.amount.toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
+                <div class="loan-item"><span>Monthly EMI</span><span class="loan-val" style="color:var(--info)">Rs ${l.emi.toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
+                <div class="loan-item"><span>Total Interest</span><span class="loan-val interest">Rs ${Math.round(l.totalInterest).toLocaleString()}</span></div>
+                <div class="loan-item"><span>Total Payable</span><span class="loan-val">Rs ${Math.round(l.totalPayable).toLocaleString()}</span></div>
+                <div class="loan-item"><span>Total Paid</span><span class="loan-val paid">Rs ${Math.round(liveTotalPaid).toLocaleString()}</span></div>
+                <div class="loan-item"><span>Outstanding</span><span class="loan-val remain">Rs ${liveOutstanding.toLocaleString(undefined,{minimumFractionDigits:2})}</span></div>
               </div>
-              <div class="loan-progress">
+              <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:.4rem">
+                <span>Capital Paid: <strong style="color:var(--success)">Rs ${Math.round(liveCapitalPaid).toLocaleString()}</strong></span>
+                <span>Interest Paid: <strong style="color:var(--accent)">Rs ${Math.round(liveInterestPaid).toLocaleString()}</strong></span>
+              </div>
+              <div class="loan-progress" style="margin-top:.4rem">
                 <div class="loan-bar-bg">
                   <div class="loan-bar-fill" style="width:${paidPct}%"></div>
                 </div>
                 <div class="loan-bar-labels">
-                  <span>Paid: ${Math.round(paidPct)}%</span>
-                  <span>Remaining: ${Math.round(100 - paidPct)}%</span>
+                  <span>Paid: ${livePaidCount} / ${l.months}</span>
+                  <span>Remaining: ${l.months - livePaidCount}</span>
                 </div>
               </div>
+              <details class="card-loan-schedule">
+                <summary>View Installment Schedule</summary>
+                <div class="installment-scroll">
+                  <table class="installment-table">
+                    <thead><tr><th>Due Date</th><th>Capital</th><th>Interest</th><th>EMI</th><th>Balance</th></tr></thead>
+                    <tbody>${scheduleRows}</tbody>
+                  </table>
+                </div>
+              </details>
             </div>`;
           })() : ''}
           <div class="card-footer">
@@ -1963,6 +2117,7 @@
     document.getElementById('f-is-loan').checked = false;
     document.getElementById('f-loan-fields').classList.remove('visible');
     document.getElementById('f-loan-preview').style.display = 'none';
+    document.getElementById('f-loan-start-date').value = '';
     document.getElementById('dream-modal').classList.add('open');
   }
 
@@ -1993,13 +2148,13 @@
       document.getElementById('f-loan-amount').value = d.loan.amount || '';
       document.getElementById('f-loan-rate').value = d.loan.rate || '';
       document.getElementById('f-loan-months').value = d.loan.months || '';
-      document.getElementById('f-loan-paid').value = d.loan.paid || '';
+      document.getElementById('f-loan-start-date').value = d.loan.startDate || '';
       calcLoanPreview();
     } else {
       document.getElementById('f-loan-amount').value = '';
       document.getElementById('f-loan-rate').value = '';
       document.getElementById('f-loan-months').value = '';
-      document.getElementById('f-loan-paid').value = '';
+      document.getElementById('f-loan-start-date').value = '';
       document.getElementById('f-loan-preview').style.display = 'none';
     }
     document.getElementById('dream-modal').classList.add('open');
@@ -2038,13 +2193,23 @@
       const lAmount = parseFloat(document.getElementById('f-loan-amount').value) || 0;
       const lRate = parseFloat(document.getElementById('f-loan-rate').value) || 0;
       const lMonths = parseInt(document.getElementById('f-loan-months').value) || 0;
-      const lPaid = parseFloat(document.getElementById('f-loan-paid').value) || 0;
-      const { totalInterest, totalPayable, monthlyEMI } = calcLoan(lAmount, lRate, lMonths);
+      const lStartDate = document.getElementById('f-loan-start-date').value;
+      const lPaidCount = calcPaidCount(lStartDate, lMonths);
+      const { emi, totalInterest, totalPayable } = calcLoan(lAmount, lRate, lMonths);
+      const schedule = buildAmortization(lAmount, lRate, lMonths, lStartDate);
+      const capitalPaid = schedule.slice(0, lPaidCount).reduce((s, r) => s + r.capitalDemand, 0);
+      const interestPaid = schedule.slice(0, lPaidCount).reduce((s, r) => s + r.interestDemand, 0);
+      const outstanding = lPaidCount > 0 && lPaidCount <= lMonths ? schedule[lPaidCount - 1].balance : lAmount;
       dream.loan = {
-        amount: lAmount, rate: lRate, months: lMonths, paid: lPaid,
-        totalInterest: Math.round(totalInterest),
-        totalPayable: Math.round(totalPayable),
-        monthlyEMI: Math.round(monthlyEMI)
+        amount: lAmount, rate: lRate, months: lMonths,
+        startDate: lStartDate, paidCount: lPaidCount,
+        emi: Math.round(emi * 100) / 100,
+        totalInterest: Math.round(totalInterest * 100) / 100,
+        totalPayable: Math.round(totalPayable * 100) / 100,
+        capitalPaid: Math.round(capitalPaid * 100) / 100,
+        interestPaid: Math.round(interestPaid * 100) / 100,
+        totalPaid: Math.round((capitalPaid + interestPaid) * 100) / 100,
+        outstanding: Math.round(outstanding * 100) / 100
       };
     } else {
       dream.loan = null;
