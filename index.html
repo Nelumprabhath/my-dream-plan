@@ -167,17 +167,18 @@
     /* ── Dream Cards ── */
     .dreams-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
     }
     .dream-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.25rem;
+      padding: 1.5rem;
       transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
+      font-size: 0.95rem;
     }
     .dream-card::before {
       content: '';
@@ -196,9 +197,9 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
-    .card-title { font-size: 1.1rem; font-weight: 600; flex: 1; padding-right: 0.5rem; }
+    .card-title { font-size: 1.15rem; font-weight: 600; flex: 1; padding-right: 0.5rem; }
     .card-actions { display: flex; gap: 0.4rem; }
     .icon-btn {
       background: none;
@@ -215,11 +216,11 @@
 
     .card-desc {
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       line-height: 1.5;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -227,13 +228,13 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
     .tag {
       background: rgba(255,255,255,0.07);
       border-radius: 20px;
-      padding: 0.2rem 0.7rem;
-      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.78rem;
       color: var(--muted);
     }
     .tag.category { color: #a78bfa; background: rgba(167,139,250,0.1); }
@@ -245,8 +246,8 @@
     .progress-bar {
       background: rgba(255,255,255,0.08);
       border-radius: 99px;
-      height: 6px;
-      margin-bottom: 0.6rem;
+      height: 7px;
+      margin-bottom: 0.7rem;
       overflow: hidden;
     }
     .progress-fill {
@@ -258,7 +259,7 @@
     .card-footer {
       display: flex;
       justify-content: space-between;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--muted);
     }
 
@@ -522,6 +523,223 @@
     }
     .category-budget-table tr:hover td { background: rgba(255,255,255,0.02); }
     .category-budget-table .bar-cell { width: 30%; }
+    .cat-row { cursor: pointer; }
+    .cat-row td:first-child::before {
+      content: '▶';
+      display: inline-block;
+      font-size: 0.65rem;
+      margin-right: 0.5rem;
+      transition: transform 0.2s;
+      color: var(--muted);
+    }
+    .cat-row.expanded td:first-child::before { transform: rotate(90deg); }
+    .sub-row { display: none; }
+    .sub-row.visible { display: table-row; }
+    .sub-row td {
+      padding-left: 2.8rem !important;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: rgba(0,0,0,0.15);
+      border-top: 1px solid rgba(255,255,255,0.03);
+    }
+    .sub-row td:first-child { font-weight: 400; }
+    .sub-row:hover td { background: rgba(0,0,0,0.2) !important; }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.6rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.4rem;
+      font-size: 0.88rem;
+    }
+    .step-item .step-name { flex: 1; }
+    .step-item .step-cost { font-weight: 600; color: var(--info); min-width: 70px; text-align: right; }
+    .step-item .step-del {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.85rem; padding: 0.15rem 0.3rem; border-radius: 4px;
+    }
+    .step-item .step-del:hover { color: var(--accent); background: rgba(233,69,96,0.15); }
+    .card-steps {
+      margin-bottom: 0.7rem;
+      padding: 0.6rem 0.7rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+    .card-steps .step-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+      color: var(--muted);
+    }
+    .card-steps .step-line .cost { color: var(--info); font-weight: 600; }
+    .card-steps .steps-total-line {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.35rem;
+      margin-top: 0.3rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.82rem;
+    }
+    .card-steps .steps-total-line .cost { color: var(--info); }
+
+    .card-loan {
+      margin-bottom: 0.7rem;
+      padding: 0.7rem;
+      background: rgba(255,152,0,0.06);
+      border: 1px solid rgba(255,152,0,0.15);
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+    .card-loan .loan-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--warning);
+      margin-bottom: 0.5rem;
+    }
+    .loan-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1rem;
+    }
+    .loan-grid .loan-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.15rem 0;
+      color: var(--muted);
+    }
+    .loan-grid .loan-item .loan-val { font-weight: 600; color: var(--text); }
+    .loan-grid .loan-item .loan-val.interest { color: var(--accent); }
+    .loan-grid .loan-item .loan-val.paid { color: var(--success); }
+    .loan-grid .loan-item .loan-val.remain { color: var(--warning); }
+    .loan-progress {
+      margin-top: 0.5rem;
+    }
+    .loan-progress .loan-bar-bg {
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .loan-progress .loan-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--success), #22c55e);
+      transition: width 0.5s;
+    }
+    .loan-progress .loan-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    #f-loan-fields { display: none; }
+    #f-loan-fields.visible { display: block; }
+    .loan-preview {
+      margin-top: 0.75rem;
+      padding: 0.7rem;
+      background: rgba(255,152,0,0.06);
+      border: 1px solid rgba(255,152,0,0.15);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    .loan-preview .lp-title {
+      font-weight: 600;
+      color: var(--warning);
+      margin-bottom: 0.4rem;
+      font-size: 0.82rem;
+    }
+    .loan-preview .lp-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.2rem 0;
+      color: var(--muted);
+    }
+    .loan-preview .lp-row .lp-val { font-weight: 600; color: var(--text); }
+
+    /* ── Wedding Plan ── */
+    .wedding-sides {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .wedding-side {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+    .wedding-side .side-heading {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .wedding-side .side-heading .side-dot {
+      width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+    }
+    .wedding-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+    .wedding-item:hover { background: rgba(255,255,255,0.04); }
+    .wedding-item .wi-name { flex: 1; }
+    .wedding-item .wi-cat {
+      font-size: 0.72rem;
+      background: rgba(255,255,255,0.07);
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      color: var(--muted);
+      margin: 0 0.5rem;
+    }
+    .wedding-item .wi-cost { font-weight: 600; min-width: 80px; text-align: right; }
+    .wedding-item .wi-del {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.85rem; padding: 0.2rem 0.35rem; margin-left: 0.4rem; border-radius: 4px;
+    }
+    .wedding-item .wi-del:hover { color: var(--accent); background: rgba(233,69,96,0.15); }
+    .wedding-item-list { max-height: 300px; overflow-y: auto; margin-bottom: 0.75rem; }
+    .wedding-total {
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 1rem;
+      text-align: right;
+    }
+    .wedding-grand-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .wedding-breakdown {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .wedding-sides { grid-template-columns: 1fr; }
+    }
     .cat-bar-bg {
       background: rgba(255,255,255,0.06);
       border-radius: 99px;
@@ -830,7 +1048,7 @@
       <div class="stat-label">Completed</div>
     </div>
     <div class="stat">
-      <div class="stat-num" id="stat-budget">$0</div>
+      <div class="stat-num" id="stat-budget">Rs 0</div>
       <div class="stat-label">Total Budget</div>
     </div>
   </div>
@@ -841,6 +1059,7 @@
   <button onclick="switchTab('timeline', this)">📅 Timeline</button>
   <button onclick="switchTab('budget', this)">💰 Budget</button>
   <button onclick="switchTab('finance', this)">📊 Financial Plan</button>
+  <button onclick="switchTab('wedding', this)">💍 Wedding Plan</button>
 </nav>
 
 <main>
@@ -941,7 +1160,7 @@
             <input type="number" id="income-amount-p1" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
             <button class="btn-primary btn-sm" onclick="addIncome('person1')">+</button>
           </div>
-          <div class="fin-total">Total: <span id="income-total-p1">$0</span></div>
+          <div class="fin-total">Total: <span id="income-total-p1">Rs 0</span></div>
         </div>
         <div class="finance-panel">
           <h3 class="panel-heading">🏷️ Monthly Expenses</h3>
@@ -955,7 +1174,7 @@
             </select>
             <button class="btn-primary btn-sm" onclick="addExpense('person1')">+</button>
           </div>
-          <div class="fin-total">Total: <span id="expense-total-p1">$0</span></div>
+          <div class="fin-total">Total: <span id="expense-total-p1">Rs 0</span></div>
         </div>
       </div>
       <div class="budget-summary" id="finance-summary-p1" style="margin-top:1.5rem"></div>
@@ -964,8 +1183,8 @@
         <div id="savings-goals-list-p1"></div>
         <div class="fin-add-row">
           <input type="text" id="goal-name-p1" placeholder="Goal name" class="fin-input" />
-          <input type="number" id="goal-target-p1" placeholder="Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
-          <input type="number" id="goal-saved-p1" placeholder="Saved $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-target-p1" placeholder="Target Rs" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-saved-p1" placeholder="Saved Rs" min="0" step="0.01" class="fin-input fin-input-sm" />
           <input type="date" id="goal-deadline-p1" class="fin-input fin-input-sm" />
           <button class="btn-primary btn-sm" onclick="addSavingsGoal('person1')">+</button>
         </div>
@@ -993,7 +1212,7 @@
             <input type="number" id="income-amount-p2" placeholder="Amount" min="0" step="0.01" class="fin-input fin-input-sm" />
             <button class="btn-primary btn-sm" onclick="addIncome('person2')">+</button>
           </div>
-          <div class="fin-total">Total: <span id="income-total-p2">$0</span></div>
+          <div class="fin-total">Total: <span id="income-total-p2">Rs 0</span></div>
         </div>
         <div class="finance-panel">
           <h3 class="panel-heading">🏷️ Monthly Expenses</h3>
@@ -1007,7 +1226,7 @@
             </select>
             <button class="btn-primary btn-sm" onclick="addExpense('person2')">+</button>
           </div>
-          <div class="fin-total">Total: <span id="expense-total-p2">$0</span></div>
+          <div class="fin-total">Total: <span id="expense-total-p2">Rs 0</span></div>
         </div>
       </div>
       <div class="budget-summary" id="finance-summary-p2" style="margin-top:1.5rem"></div>
@@ -1016,8 +1235,8 @@
         <div id="savings-goals-list-p2"></div>
         <div class="fin-add-row">
           <input type="text" id="goal-name-p2" placeholder="Goal name" class="fin-input" />
-          <input type="number" id="goal-target-p2" placeholder="Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
-          <input type="number" id="goal-saved-p2" placeholder="Saved $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-target-p2" placeholder="Target Rs" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="goal-saved-p2" placeholder="Saved Rs" min="0" step="0.01" class="fin-input fin-input-sm" />
           <input type="date" id="goal-deadline-p2" class="fin-input fin-input-sm" />
           <button class="btn-primary btn-sm" onclick="addSavingsGoal('person2')">+</button>
         </div>
@@ -1045,11 +1264,64 @@
         <div id="shared-goals-list"></div>
         <div class="fin-add-row" style="margin-top:.75rem">
           <input type="text" id="shared-goal-name" placeholder="Goal (e.g. Wedding)" class="fin-input" />
-          <input type="number" id="shared-goal-target" placeholder="Total Target $" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <input type="number" id="shared-goal-target" placeholder="Total Target Rs" min="0" step="0.01" class="fin-input fin-input-sm" />
           <input type="date" id="shared-goal-deadline" class="fin-input fin-input-sm" />
           <button class="btn-primary btn-sm" onclick="addSharedGoal()">+</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Wedding Plan Tab -->
+  <div id="tab-wedding" class="tab-content">
+    <div class="top-bar">
+      <span class="section-title">Wedding Plan</span>
+    </div>
+
+    <div id="wedding-summary" class="wedding-grand-summary"></div>
+
+    <div class="wedding-sides">
+      <!-- Bride Side -->
+      <div class="wedding-side">
+        <div class="side-heading"><span class="side-dot" style="background:#ec4899"></span> Bride's Costs</div>
+        <div id="wedding-bride-list" class="wedding-item-list"></div>
+        <div class="fin-add-row">
+          <input type="text" id="w-bride-name" placeholder="Item name" class="fin-input" />
+          <input type="number" id="w-bride-cost" placeholder="Cost (Rs)" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <select id="w-bride-cat" class="fin-input fin-input-sm">
+            <option>Attire</option><option>Jewellery</option><option>Salon & Beauty</option>
+            <option>Photography</option><option>Catering</option><option>Venue</option>
+            <option>Decoration</option><option>Entertainment</option><option>Transport</option>
+            <option>Gifts</option><option>Invitation</option><option>Other</option>
+          </select>
+          <button class="btn-primary btn-sm" onclick="addWeddingItem('bride')">+</button>
+        </div>
+        <div class="wedding-total">Total: <span id="wedding-bride-total" style="color:#ec4899">Rs 0</span></div>
+      </div>
+
+      <!-- Groom Side -->
+      <div class="wedding-side">
+        <div class="side-heading"><span class="side-dot" style="background:#6366f1"></span> Groom's Costs</div>
+        <div id="wedding-groom-list" class="wedding-item-list"></div>
+        <div class="fin-add-row">
+          <input type="text" id="w-groom-name" placeholder="Item name" class="fin-input" />
+          <input type="number" id="w-groom-cost" placeholder="Cost (Rs)" min="0" step="0.01" class="fin-input fin-input-sm" />
+          <select id="w-groom-cat" class="fin-input fin-input-sm">
+            <option>Attire</option><option>Jewellery</option><option>Salon & Beauty</option>
+            <option>Photography</option><option>Catering</option><option>Venue</option>
+            <option>Decoration</option><option>Entertainment</option><option>Transport</option>
+            <option>Gifts</option><option>Invitation</option><option>Other</option>
+          </select>
+          <button class="btn-primary btn-sm" onclick="addWeddingItem('groom')">+</button>
+        </div>
+        <div class="wedding-total">Total: <span id="wedding-groom-total" style="color:#6366f1">Rs 0</span></div>
+      </div>
+    </div>
+
+    <!-- Breakdown by Category -->
+    <div id="wedding-breakdown" class="wedding-breakdown">
+      <h3 class="panel-heading">📊 Cost Breakdown by Category</h3>
+      <div id="wedding-breakdown-chart"></div>
     </div>
   </div>
 
@@ -1106,13 +1378,42 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Expected Budget ($)</label>
+          <label>Expected Budget (Rs)</label>
           <input type="number" id="f-budget" min="0" step="0.01" placeholder="0.00" />
         </div>
         <div class="form-group">
-          <label>Amount Spent ($)</label>
+          <label>Amount Spent (Rs)</label>
           <input type="number" id="f-spent" min="0" step="0.01" placeholder="0.00" />
         </div>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+          <input type="checkbox" id="f-is-loan" onchange="toggleLoanFields()" style="width:auto;accent-color:var(--warning)" />
+          This is a Loan
+        </label>
+      </div>
+      <div id="f-loan-fields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Loan Amount (Rs)</label>
+            <input type="number" id="f-loan-amount" min="0" step="0.01" placeholder="0.00" oninput="calcLoanPreview()" />
+          </div>
+          <div class="form-group">
+            <label>Interest Rate (% per year)</label>
+            <input type="number" id="f-loan-rate" min="0" step="0.01" placeholder="e.g. 12" oninput="calcLoanPreview()" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Duration (months)</label>
+            <input type="number" id="f-loan-months" min="1" step="1" placeholder="e.g. 36" oninput="calcLoanPreview()" />
+          </div>
+          <div class="form-group">
+            <label>Amount Paid (Rs)</label>
+            <input type="number" id="f-loan-paid" min="0" step="0.01" placeholder="0.00" oninput="calcLoanPreview()" />
+          </div>
+        </div>
+        <div id="f-loan-preview" class="loan-preview" style="display:none"></div>
       </div>
       <div class="form-group">
         <label>Progress: <span id="progress-label">0%</span></label>
@@ -1123,8 +1424,21 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Notes / Milestones</label>
-        <textarea id="f-notes" placeholder="Key steps, milestones, resources..."></textarea>
+        <label>Steps / Sub-items <span style="font-size:.78rem;color:var(--muted);font-weight:400">(each step can have a cost)</span></label>
+        <div id="f-steps-list"></div>
+        <div style="display:flex;gap:.5rem;align-items:center;margin-top:.5rem">
+          <input type="text" id="f-step-name" placeholder="Step name" style="flex:1" />
+          <input type="number" id="f-step-cost" placeholder="Cost (Rs)" min="0" step="0.01" style="max-width:120px" />
+          <button type="button" class="btn-primary btn-sm" onclick="addStepToForm()" style="padding:.55rem .85rem">+</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:.6rem;padding-top:.5rem;border-top:1px solid var(--border);font-size:.9rem">
+          <span style="color:var(--muted)">Steps Total Cost</span>
+          <span style="font-weight:700;color:var(--info)" id="f-steps-total">Rs 0</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="f-notes" placeholder="Additional notes, resources..."></textarea>
       </div>
       <div class="form-actions">
         <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
@@ -1164,6 +1478,86 @@
 
   let dreams = loadDreams();
   let editingId = null;
+  let formSteps = [];
+
+  function addStepToForm() {
+    const name = document.getElementById('f-step-name').value.trim();
+    const cost = parseFloat(document.getElementById('f-step-cost').value) || 0;
+    if (!name) return showToast('Enter a step name');
+    formSteps.push({ name, cost });
+    document.getElementById('f-step-name').value = '';
+    document.getElementById('f-step-cost').value = '';
+    renderFormSteps();
+  }
+
+  function removeStepFromForm(idx) {
+    formSteps.splice(idx, 1);
+    renderFormSteps();
+  }
+
+  function toggleLoanFields() {
+    const checked = document.getElementById('f-is-loan').checked;
+    document.getElementById('f-loan-fields').classList.toggle('visible', checked);
+    if (!checked) document.getElementById('f-loan-preview').style.display = 'none';
+  }
+
+  function calcLoan(amount, rate, months) {
+    const totalInterest = amount * (rate / 100) * (months / 12);
+    const totalPayable = amount + totalInterest;
+    const monthlyEMI = months > 0 ? totalPayable / months : 0;
+    return { totalInterest, totalPayable, monthlyEMI };
+  }
+
+  function calcLoanPreview() {
+    const amount = parseFloat(document.getElementById('f-loan-amount').value) || 0;
+    const rate = parseFloat(document.getElementById('f-loan-rate').value) || 0;
+    const months = parseInt(document.getElementById('f-loan-months').value) || 0;
+    const paid = parseFloat(document.getElementById('f-loan-paid').value) || 0;
+    const preview = document.getElementById('f-loan-preview');
+
+    if (!amount || !months) { preview.style.display = 'none'; return; }
+
+    const { totalInterest, totalPayable, monthlyEMI } = calcLoan(amount, rate, months);
+    const remaining = Math.max(0, totalPayable - paid);
+    const paidPct = totalPayable > 0 ? Math.min((paid / totalPayable) * 100, 100) : 0;
+
+    preview.style.display = 'block';
+    preview.innerHTML = `
+      <div class="lp-title">Loan Summary</div>
+      <div class="lp-row"><span>Loan Amount</span><span class="lp-val">Rs ${amount.toLocaleString()}</span></div>
+      <div class="lp-row"><span>Total Interest</span><span class="lp-val" style="color:var(--accent)">Rs ${Math.round(totalInterest).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Total Payable</span><span class="lp-val" style="color:var(--warning)">Rs ${Math.round(totalPayable).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Monthly EMI</span><span class="lp-val">Rs ${Math.round(monthlyEMI).toLocaleString()}</span></div>
+      <div class="lp-row"><span>Paid</span><span class="lp-val" style="color:var(--success)">Rs ${paid.toLocaleString()}</span></div>
+      <div class="lp-row"><span>Remaining</span><span class="lp-val" style="color:var(--warning)">Rs ${Math.round(remaining).toLocaleString()}</span></div>
+      <div style="margin-top:.5rem">
+        <div style="background:rgba(255,255,255,0.08);border-radius:99px;height:8px;overflow:hidden">
+          <div style="width:${paidPct}%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--success),#22c55e);transition:width .5s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:.25rem">
+          <span>Paid: ${Math.round(paidPct)}%</span>
+          <span>Remaining: ${Math.round(100 - paidPct)}%</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderFormSteps() {
+    const list = document.getElementById('f-steps-list');
+    const total = formSteps.reduce((s, st) => s + st.cost, 0);
+    document.getElementById('f-steps-total').textContent = 'Rs ' + total.toLocaleString();
+    if (formSteps.length === 0) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:.82rem;padding:.3rem 0">No steps added yet</div>';
+      return;
+    }
+    list.innerHTML = formSteps.map((st, i) => `
+      <div class="step-item">
+        <span class="step-name">${escHtml(st.name)}</span>
+        <span class="step-cost">${st.cost ? 'Rs ' + st.cost.toLocaleString() : 'Rs 0'}</span>
+        <button type="button" class="step-del" onclick="removeStepFromForm(${i})">✕</button>
+      </div>
+    `).join('');
+  }
 
   // ── Tabs ────────────────────────────────────────────────
   function switchTab(name, btn) {
@@ -1174,6 +1568,7 @@
     if (name === 'timeline') renderTimeline();
     if (name === 'budget') renderBudget();
     if (name === 'finance') renderFinance();
+    if (name === 'wedding') renderWedding();
   }
 
   // ── Render Cards ─────────────────────────────────────────
@@ -1244,10 +1639,41 @@
           <div class="progress-bar">
             <div class="progress-fill" style="width:${d.progress}%"></div>
           </div>
-          ${d.budget ? `<div class="card-budget" style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.5rem;color:var(--muted)">
-            <span>💰 Budget: $${Number(d.budget).toLocaleString()}</span>
-            <span style="color:${(d.spent||0)>d.budget?'var(--accent)':'var(--success)'}">Spent: $${Number(d.spent||0).toLocaleString()}</span>
+          ${d.steps && d.steps.length > 0 ? `<div class="card-steps">
+            ${d.steps.map(st => `<div class="step-line"><span>${escHtml(st.name)}</span><span class="cost">${st.cost ? 'Rs ' + Number(st.cost).toLocaleString() : '—'}</span></div>`).join('')}
           </div>` : ''}
+          ${(d.budget || d.spent || d.stepsCost) ? (() => {
+            const totalSpent = (Number(d.spent)||0) + (Number(d.stepsCost)||0);
+            return `<div class="card-budget" style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.5rem;color:var(--muted)">
+            <span>💰 Budget: Rs ${Number(d.budget||0).toLocaleString()}</span>
+            <span style="color:${totalSpent>(d.budget||0)?'var(--accent)':'var(--success)'}">Spent: Rs ${totalSpent.toLocaleString()}</span>
+          </div>`;
+          })() : ''}
+          ${d.loan ? (() => {
+            const l = d.loan;
+            const remaining = Math.max(0, l.totalPayable - l.paid);
+            const paidPct = l.totalPayable > 0 ? Math.min((l.paid / l.totalPayable) * 100, 100) : 0;
+            return `<div class="card-loan">
+              <div class="loan-title">🏦 Loan · ${l.months} months · ${l.rate}%</div>
+              <div class="loan-grid">
+                <div class="loan-item"><span>Loan Amount</span><span class="loan-val">Rs ${l.amount.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Interest</span><span class="loan-val interest">Rs ${l.totalInterest.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Total Payable</span><span class="loan-val">Rs ${l.totalPayable.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Monthly EMI</span><span class="loan-val">Rs ${l.monthlyEMI.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Paid</span><span class="loan-val paid">Rs ${l.paid.toLocaleString()}</span></div>
+                <div class="loan-item"><span>Remaining</span><span class="loan-val remain">Rs ${remaining.toLocaleString()}</span></div>
+              </div>
+              <div class="loan-progress">
+                <div class="loan-bar-bg">
+                  <div class="loan-bar-fill" style="width:${paidPct}%"></div>
+                </div>
+                <div class="loan-bar-labels">
+                  <span>Paid: ${Math.round(paidPct)}%</span>
+                  <span>Remaining: ${Math.round(100 - paidPct)}%</span>
+                </div>
+              </div>
+            </div>`;
+          })() : ''}
           <div class="card-footer">
             <span>${d.createdAt ? '📌 ' + formatDateTime(d.createdAt) : ''}</span>
             <span>${d.target ? '🎯 ' + formatDate(d.target) + ' · ' + daysLeft(d.target) : ''}</span>
@@ -1301,7 +1727,7 @@
           <div class="progress-bar" style="margin-bottom:0">
             <div class="progress-fill" style="width:${d.progress}%"></div>
           </div>
-          ${d.budget ? `<div style="font-size:.78rem;color:var(--muted);margin-top:.35rem">💰 Budget: $${Number(d.budget).toLocaleString()} · Spent: $${Number(d.spent||0).toLocaleString()}</div>` : ''}
+          ${(d.budget || d.spent || d.stepsCost) ? `<div style="font-size:.78rem;color:var(--muted);margin-top:.35rem">💰 Budget: Rs ${Number(d.budget||0).toLocaleString()} · Spent: Rs ${((Number(d.spent)||0) + (Number(d.stepsCost)||0)).toLocaleString()}</div>` : ''}
           ${d.desc ? `<div class="timeline-item-desc" style="margin-top:.4rem">${escHtml(d.desc.slice(0,100))}${d.desc.length>100?'…':''}</div>` : ''}
         </div>
       `).join('')}
@@ -1325,21 +1751,27 @@
     const tableEl = document.getElementById('budget-table-container');
 
     const totalBudget = dreams.reduce((s, d) => s + (Number(d.budget) || 0), 0);
-    const totalSpent = dreams.reduce((s, d) => s + (Number(d.spent) || 0), 0);
+    const totalManualSpent = dreams.reduce((s, d) => s + (Number(d.spent) || 0), 0);
+    const totalAllStepsCost = dreams.reduce((s, d) => s + (Number(d.stepsCost) || 0), 0);
+    const totalSpent = totalManualSpent + totalAllStepsCost;
     const remaining = totalBudget - totalSpent;
 
     // Summary cards
     summaryEl.innerHTML = `
       <div class="budget-summary-card">
-        <div class="amount blue">$${totalBudget.toLocaleString()}</div>
+        <div class="amount blue">Rs ${totalBudget.toLocaleString()}</div>
         <div class="label">Total Expected Budget</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount ${totalSpent > totalBudget ? 'red' : 'green'}">$${totalSpent.toLocaleString()}</div>
+        <div class="amount" style="color:var(--info)">Rs ${totalAllStepsCost.toLocaleString()}</div>
+        <div class="label">Total Steps Cost</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount ${totalSpent > totalBudget ? 'red' : 'green'}">Rs ${totalSpent.toLocaleString()}</div>
         <div class="label">Total Spent</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount ${remaining < 0 ? 'red' : 'green'}">$${Math.abs(remaining).toLocaleString()}</div>
+        <div class="amount ${remaining < 0 ? 'red' : 'green'}">Rs ${Math.abs(remaining).toLocaleString()}</div>
         <div class="label">${remaining >= 0 ? 'Remaining' : 'Over Budget'}</div>
       </div>
     `;
@@ -1347,14 +1779,17 @@
     // Group by category
     const cats = {};
     dreams.forEach(d => {
-      if (!cats[d.category]) cats[d.category] = { budget: 0, spent: 0, count: 0 };
+      if (!cats[d.category]) cats[d.category] = { budget: 0, spent: 0, stepsCost: 0, count: 0, dreams: [] };
       cats[d.category].budget += Number(d.budget) || 0;
-      cats[d.category].spent += Number(d.spent) || 0;
+      cats[d.category].spent += (Number(d.spent) || 0) + (Number(d.stepsCost) || 0);
+      cats[d.category].stepsCost += Number(d.stepsCost) || 0;
       cats[d.category].count++;
+      cats[d.category].dreams.push(d);
     });
 
     const entries = Object.entries(cats).sort((a, b) => b[1].budget - a[1].budget);
     const maxBudget = Math.max(...entries.map(([, v]) => v.budget), 1);
+    const totalStepsCost = dreams.reduce((s, d) => s + (Number(d.stepsCost) || 0), 0);
 
     if (entries.length === 0) {
       tableEl.innerHTML = `<div class="empty-state">
@@ -1371,6 +1806,7 @@
           <tr>
             <th>Category</th>
             <th>Dreams</th>
+            <th>Steps Cost</th>
             <th>Expected Budget</th>
             <th>Amount Spent</th>
             <th>Remaining</th>
@@ -1378,21 +1814,51 @@
           </tr>
         </thead>
         <tbody>
-          ${entries.map(([cat, v]) => {
+          ${entries.map(([cat, v], ci) => {
             const rem = v.budget - v.spent;
             const pct = v.budget > 0 ? Math.min((v.spent / v.budget) * 100, 100) : 0;
             const overPct = v.budget > 0 && v.spent > v.budget;
             const color = categoryColors[cat] || '#64748b';
-            return `<tr>
+            const catId = 'cat-' + ci;
+            const subRows = v.dreams.map(d => {
+              const dTotalSpent = (Number(d.spent)||0) + (Number(d.stepsCost)||0);
+              const dRem = (Number(d.budget)||0) - dTotalSpent;
+              const dPct = d.budget > 0 ? Math.min((dTotalSpent / d.budget) * 100, 100) : 0;
+              const dOver = d.budget > 0 && dTotalSpent > d.budget;
+              const dStepsCost = Number(d.stepsCost) || 0;
+              const stepsDetail = (d.steps && d.steps.length > 0)
+                ? d.steps.map(st => `<div style="font-size:.75rem;color:var(--muted);padding-left:.5rem">· ${escHtml(st.name)}: Rs ${Number(st.cost||0).toLocaleString()}</div>`).join('')
+                : '';
+              return `<tr class="sub-row" data-cat="${catId}">
+                <td>📋 ${escHtml(d.title)}</td>
+                <td style="text-align:center">—</td>
+                <td style="color:var(--info)">${dStepsCost ? 'Rs ' + dStepsCost.toLocaleString() : '—'}${stepsDetail}</td>
+                <td>${d.budget ? 'Rs ' + Number(d.budget).toLocaleString() : '—'}</td>
+                <td style="color:${dOver?'var(--accent)':'var(--muted)'}">Rs ${dTotalSpent.toLocaleString()}</td>
+                <td style="color:${dRem<0?'var(--accent)':'var(--success)'}">
+                  ${d.budget ? (dRem < 0 ? '-' : '') + 'Rs ' + Math.abs(dRem).toLocaleString() : '—'}
+                </td>
+                <td class="bar-cell">
+                  <div style="display:flex;align-items:center;gap:.5rem">
+                    <div class="cat-bar-bg" style="flex:1">
+                      <div class="cat-bar-fill" style="width:${dPct}%;background:${dOver?'var(--accent)':color}80"></div>
+                    </div>
+                    <span style="font-size:.75rem;color:var(--muted);min-width:2.5rem">${d.budget>0?Math.round(dTotalSpent/d.budget*100)+'%':'—'}</span>
+                  </div>
+                </td>
+              </tr>`;
+            }).join('');
+            return `<tr class="cat-row" data-cat-id="${catId}" onclick="toggleBudgetSubs('${catId}')">
               <td>
                 <span class="cat-icon" style="background:${color}22;color:${color}">${categoryIcons[cat]||'📌'}</span>
                 ${escHtml(cat)}
               </td>
               <td style="text-align:center">${v.count}</td>
-              <td>$${v.budget.toLocaleString()}</td>
-              <td style="color:${overPct?'var(--accent)':'var(--text)'}">$${v.spent.toLocaleString()}</td>
+              <td style="color:var(--info)">Rs ${v.stepsCost.toLocaleString()}</td>
+              <td>Rs ${v.budget.toLocaleString()}</td>
+              <td style="color:${overPct?'var(--accent)':'var(--text)'}">Rs ${v.spent.toLocaleString()}</td>
               <td style="color:${rem<0?'var(--accent)':'var(--success)'}">
-                ${rem < 0 ? '-' : ''}$${Math.abs(rem).toLocaleString()}
+                ${rem < 0 ? '-' : ''}Rs ${Math.abs(rem).toLocaleString()}
               </td>
               <td class="bar-cell">
                 <div style="display:flex;align-items:center;gap:.5rem">
@@ -1402,17 +1868,18 @@
                   <span style="font-size:.75rem;color:var(--muted);min-width:2.5rem">${v.budget>0?Math.round(v.spent/v.budget*100)+'%':'—'}</span>
                 </div>
               </td>
-            </tr>`;
+            </tr>${subRows}`;
           }).join('')}
         </tbody>
         <tfoot>
           <tr class="table-footer">
             <td>Total</td>
             <td style="text-align:center">${dreams.length}</td>
-            <td>$${totalBudget.toLocaleString()}</td>
-            <td style="color:${totalSpent>totalBudget?'var(--accent)':'var(--text)'}">$${totalSpent.toLocaleString()}</td>
+            <td style="color:var(--info)">Rs ${totalStepsCost.toLocaleString()}</td>
+            <td>Rs ${totalBudget.toLocaleString()}</td>
+            <td style="color:${totalSpent>totalBudget?'var(--accent)':'var(--text)'}">Rs ${totalSpent.toLocaleString()}</td>
             <td style="color:${remaining<0?'var(--accent)':'var(--success)'}">
-              ${remaining<0?'-':''}$${Math.abs(remaining).toLocaleString()}
+              ${remaining<0?'-':''}Rs ${Math.abs(remaining).toLocaleString()}
             </td>
             <td class="bar-cell">
               <div style="display:flex;align-items:center;gap:.5rem">
@@ -1428,13 +1895,20 @@
     `;
   }
 
+  function toggleBudgetSubs(catId) {
+    const row = document.querySelector(`tr[data-cat-id="${catId}"]`);
+    const subs = document.querySelectorAll(`tr.sub-row[data-cat="${catId}"]`);
+    const isExpanded = row.classList.toggle('expanded');
+    subs.forEach(s => s.classList.toggle('visible', isExpanded));
+  }
+
   // ── Stats ────────────────────────────────────────────────
   function updateStats() {
     document.getElementById('stat-total').textContent = dreams.length;
     document.getElementById('stat-active').textContent = dreams.filter(d => d.status === 'in-progress').length;
     document.getElementById('stat-done').textContent = dreams.filter(d => d.status === 'completed').length;
     const totalBudget = dreams.reduce((sum, d) => sum + (Number(d.budget) || 0), 0);
-    document.getElementById('stat-budget').textContent = '$' + totalBudget.toLocaleString();
+    document.getElementById('stat-budget').textContent = 'Rs ' + totalBudget.toLocaleString();
   }
 
   // ── Modal ────────────────────────────────────────────────
@@ -1445,6 +1919,11 @@
     document.getElementById('f-progress').value = 0;
     document.getElementById('progress-label').textContent = '0%';
     document.getElementById('progress-display').textContent = '0%';
+    formSteps = [];
+    renderFormSteps();
+    document.getElementById('f-is-loan').checked = false;
+    document.getElementById('f-loan-fields').classList.remove('visible');
+    document.getElementById('f-loan-preview').style.display = 'none';
     document.getElementById('dream-modal').classList.add('open');
   }
 
@@ -1465,6 +1944,25 @@
     document.getElementById('progress-label').textContent = d.progress + '%';
     document.getElementById('progress-display').textContent = d.progress + '%';
     document.getElementById('f-notes').value = d.notes || '';
+    formSteps = d.steps ? d.steps.map(s => ({ ...s })) : [];
+    renderFormSteps();
+    // Loan fields
+    const isLoan = !!d.loan;
+    document.getElementById('f-is-loan').checked = isLoan;
+    document.getElementById('f-loan-fields').classList.toggle('visible', isLoan);
+    if (isLoan) {
+      document.getElementById('f-loan-amount').value = d.loan.amount || '';
+      document.getElementById('f-loan-rate').value = d.loan.rate || '';
+      document.getElementById('f-loan-months').value = d.loan.months || '';
+      document.getElementById('f-loan-paid').value = d.loan.paid || '';
+      calcLoanPreview();
+    } else {
+      document.getElementById('f-loan-amount').value = '';
+      document.getElementById('f-loan-rate').value = '';
+      document.getElementById('f-loan-months').value = '';
+      document.getElementById('f-loan-paid').value = '';
+      document.getElementById('f-loan-preview').style.display = 'none';
+    }
     document.getElementById('dream-modal').classList.add('open');
   }
 
@@ -1491,8 +1989,27 @@
       spent: parseFloat(document.getElementById('f-spent').value) || 0,
       progress: parseInt(document.getElementById('f-progress').value),
       notes: document.getElementById('f-notes').value.trim(),
+      steps: formSteps.map(s => ({ name: s.name, cost: s.cost })),
+      stepsCost: formSteps.reduce((sum, s) => sum + s.cost, 0),
       updatedAt: new Date().toISOString(),
     };
+
+    // Loan data
+    if (document.getElementById('f-is-loan').checked) {
+      const lAmount = parseFloat(document.getElementById('f-loan-amount').value) || 0;
+      const lRate = parseFloat(document.getElementById('f-loan-rate').value) || 0;
+      const lMonths = parseInt(document.getElementById('f-loan-months').value) || 0;
+      const lPaid = parseFloat(document.getElementById('f-loan-paid').value) || 0;
+      const { totalInterest, totalPayable, monthlyEMI } = calcLoan(lAmount, lRate, lMonths);
+      dream.loan = {
+        amount: lAmount, rate: lRate, months: lMonths, paid: lPaid,
+        totalInterest: Math.round(totalInterest),
+        totalPayable: Math.round(totalPayable),
+        monthlyEMI: Math.round(monthlyEMI)
+      };
+    } else {
+      dream.loan = null;
+    }
 
     if (editingId) {
       const idx = dreams.findIndex(x => x.id === editingId);
@@ -1692,10 +2209,10 @@
       : pd.income.map(i => `
         <div class="fin-entry">
           <span class="name">${escHtml(i.name)}</span>
-          <span class="amount" style="color:var(--success)">$${i.amount.toLocaleString()}</span>
+          <span class="amount" style="color:var(--success)">Rs ${i.amount.toLocaleString()}</span>
           <button class="del-btn" onclick="deleteFinEntry('${person}','income','${i.id}')">✕</button>
         </div>`).join('');
-    document.getElementById('income-total' + s).textContent = '$' + totalIncome.toLocaleString();
+    document.getElementById('income-total' + s).textContent = 'Rs ' + totalIncome.toLocaleString();
 
     // Expense list
     document.getElementById('expense-list' + s).innerHTML = pd.expenses.length === 0
@@ -1704,30 +2221,30 @@
         <div class="fin-entry">
           <span class="name">${escHtml(e.name)}</span>
           <span class="cat-tag">${escHtml(e.category)}</span>
-          <span class="amount" style="color:var(--accent)">$${e.amount.toLocaleString()}</span>
+          <span class="amount" style="color:var(--accent)">Rs ${e.amount.toLocaleString()}</span>
           <button class="del-btn" onclick="deleteFinEntry('${person}','expenses','${e.id}')">✕</button>
         </div>`).join('');
-    document.getElementById('expense-total' + s).textContent = '$' + totalExpenses.toLocaleString();
+    document.getElementById('expense-total' + s).textContent = 'Rs ' + totalExpenses.toLocaleString();
 
     // Summary cards
     document.getElementById('finance-summary' + s).innerHTML = `
       <div class="budget-summary-card">
-        <div class="amount green">$${totalIncome.toLocaleString()}</div>
+        <div class="amount green">Rs ${totalIncome.toLocaleString()}</div>
         <div class="label">Monthly Income</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount red">$${totalExpenses.toLocaleString()}</div>
+        <div class="amount red">Rs ${totalExpenses.toLocaleString()}</div>
         <div class="label">Monthly Expenses</div>
       </div>
       <div class="budget-summary-card">
         <div class="amount ${monthlySavings >= 0 ? 'green' : 'red'}">
-          ${monthlySavings < 0 ? '-' : ''}$${Math.abs(monthlySavings).toLocaleString()}
+          ${monthlySavings < 0 ? '-' : ''}Rs ${Math.abs(monthlySavings).toLocaleString()}
         </div>
         <div class="label">Monthly Savings</div>
       </div>
       <div class="budget-summary-card">
         <div class="amount ${annualSavings >= 0 ? 'green' : 'red'}">
-          ${annualSavings < 0 ? '-' : ''}$${Math.abs(annualSavings).toLocaleString()}
+          ${annualSavings < 0 ? '-' : ''}Rs ${Math.abs(annualSavings).toLocaleString()}
         </div>
         <div class="label">Annual Savings</div>
       </div>`;
@@ -1741,7 +2258,7 @@
         let monthlyNeeded = '';
         if (g.deadline && remaining > 0) {
           const months = Math.max(1, Math.ceil((new Date(g.deadline + 'T00:00:00') - new Date()) / (30.44 * 86400000)));
-          monthlyNeeded = `Save $${Math.ceil(remaining / months).toLocaleString()}/mo to reach goal`;
+          monthlyNeeded = `Save Rs ${Math.ceil(remaining / months).toLocaleString()}/mo to reach goal`;
         }
         return `
           <div class="savings-goal-card">
@@ -1753,8 +2270,8 @@
               </div>
             </div>
             <div class="savings-goal-amounts">
-              <span>Target: $${g.target.toLocaleString()}</span>
-              <span class="saved">Saved: $${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
+              <span>Target: Rs ${g.target.toLocaleString()}</span>
+              <span class="saved">Saved: Rs ${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
             </div>
             <div class="progress-bar">
               <div class="progress-fill" style="width:${pct}%;background:${pct >= 100 ? 'var(--success)' : 'linear-gradient(90deg, var(--info), var(--accent3))'}"></div>
@@ -1777,7 +2294,7 @@
         return `<div class="chart-bar-row">
             <span class="chart-bar-label">${cat}</span>
             <div class="chart-bar-track">
-              <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">$${val.toLocaleString()} (${pct}%)</div>
+              <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">Rs ${val.toLocaleString()} (${pct}%)</div>
             </div>
           </div>`;
       }).join('');
@@ -1795,10 +2312,10 @@
         cumulative += monthlySavings;
         rows += `<div class="projection-row">
             <span class="month">${monthNames[d.getMonth()]} ${d.getFullYear()}</span>
-            <span class="value ${cumulative >= 0 ? 'positive' : 'negative'}">${cumulative < 0 ? '-' : ''}$${Math.abs(Math.round(cumulative)).toLocaleString()}</span>
+            <span class="value ${cumulative >= 0 ? 'positive' : 'negative'}">${cumulative < 0 ? '-' : ''}Rs ${Math.abs(Math.round(cumulative)).toLocaleString()}</span>
           </div>`;
       }
-      projEl.innerHTML = `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Projected cumulative savings over 12 months at $${monthlySavings.toLocaleString()}/mo</div>${rows}`;
+      projEl.innerHTML = `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Projected cumulative savings over 12 months at Rs ${monthlySavings.toLocaleString()}/mo</div>${rows}`;
     }
   }
 
@@ -1867,22 +2384,22 @@
       <!-- Combined Summary -->
       <div class="budget-summary">
         <div class="budget-summary-card">
-          <div class="amount green">$${totalInc.toLocaleString()}</div>
+          <div class="amount green">Rs ${totalInc.toLocaleString()}</div>
           <div class="label">Combined Income</div>
         </div>
         <div class="budget-summary-card">
-          <div class="amount red">$${totalExp.toLocaleString()}</div>
+          <div class="amount red">Rs ${totalExp.toLocaleString()}</div>
           <div class="label">Combined Expenses</div>
         </div>
         <div class="budget-summary-card">
           <div class="amount ${totalSavings >= 0 ? 'green' : 'red'}">
-            ${totalSavings < 0 ? '-' : ''}$${Math.abs(totalSavings).toLocaleString()}
+            ${totalSavings < 0 ? '-' : ''}Rs ${Math.abs(totalSavings).toLocaleString()}
           </div>
           <div class="label">Combined Monthly Savings</div>
         </div>
         <div class="budget-summary-card">
           <div class="amount ${annualSavings >= 0 ? 'green' : 'red'}">
-            ${annualSavings < 0 ? '-' : ''}$${Math.abs(annualSavings).toLocaleString()}
+            ${annualSavings < 0 ? '-' : ''}Rs ${Math.abs(annualSavings).toLocaleString()}
           </div>
           <div class="label">Combined Annual Savings</div>
         </div>
@@ -1894,16 +2411,16 @@
           <h3 class="panel-heading" style="color:#6366f1">👤 ${escHtml(n1)}</h3>
           <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
             <span style="color:var(--muted);font-size:.88rem">Income</span>
-            <span style="color:var(--success);font-weight:600">$${inc1.toLocaleString()}</span>
+            <span style="color:var(--success);font-weight:600">Rs ${inc1.toLocaleString()}</span>
           </div>
           <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
             <span style="color:var(--muted);font-size:.88rem">Expenses</span>
-            <span style="color:var(--accent);font-weight:600">$${exp1.toLocaleString()}</span>
+            <span style="color:var(--accent);font-weight:600">Rs ${exp1.toLocaleString()}</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding-top:.5rem;border-top:1px solid var(--border)">
             <span style="font-weight:600;font-size:.88rem">Net Savings</span>
             <span style="color:${(inc1 - exp1) >= 0 ? 'var(--success)' : 'var(--accent)'};font-weight:700">
-              ${(inc1 - exp1) < 0 ? '-' : ''}$${Math.abs(inc1 - exp1).toLocaleString()}
+              ${(inc1 - exp1) < 0 ? '-' : ''}Rs ${Math.abs(inc1 - exp1).toLocaleString()}
             </span>
           </div>
           ${inc1 > 0 ? `<div style="margin-top:.75rem">
@@ -1915,16 +2432,16 @@
           <h3 class="panel-heading" style="color:#ec4899">👤 ${escHtml(n2)}</h3>
           <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
             <span style="color:var(--muted);font-size:.88rem">Income</span>
-            <span style="color:var(--success);font-weight:600">$${inc2.toLocaleString()}</span>
+            <span style="color:var(--success);font-weight:600">Rs ${inc2.toLocaleString()}</span>
           </div>
           <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
             <span style="color:var(--muted);font-size:.88rem">Expenses</span>
-            <span style="color:var(--accent);font-weight:600">$${exp2.toLocaleString()}</span>
+            <span style="color:var(--accent);font-weight:600">Rs ${exp2.toLocaleString()}</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding-top:.5rem;border-top:1px solid var(--border)">
             <span style="font-weight:600;font-size:.88rem">Net Savings</span>
             <span style="color:${(inc2 - exp2) >= 0 ? 'var(--success)' : 'var(--accent)'};font-weight:700">
-              ${(inc2 - exp2) < 0 ? '-' : ''}$${Math.abs(inc2 - exp2).toLocaleString()}
+              ${(inc2 - exp2) < 0 ? '-' : ''}Rs ${Math.abs(inc2 - exp2).toLocaleString()}
             </span>
           </div>
           ${inc2 > 0 ? `<div style="margin-top:.75rem">
@@ -1946,7 +2463,7 @@
               return `<div class="chart-bar-row">
                 <span class="chart-bar-label">${cat}</span>
                 <div class="chart-bar-track">
-                  <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">$${val.toLocaleString()} (${pct}%)</div>
+                  <div class="chart-bar-fill" style="width:${barW}%;background:${chartColors[i % chartColors.length]}">Rs ${val.toLocaleString()} (${pct}%)</div>
                 </div>
               </div>`;
             }).join('')}
@@ -1964,10 +2481,10 @@
                 cum += totalSavings;
                 rows += `<div class="projection-row">
                   <span class="month">${monthNames[d.getMonth()]} ${d.getFullYear()}</span>
-                  <span class="value ${cum >= 0 ? 'positive' : 'negative'}">${cum < 0 ? '-' : ''}$${Math.abs(Math.round(cum)).toLocaleString()}</span>
+                  <span class="value ${cum >= 0 ? 'positive' : 'negative'}">${cum < 0 ? '-' : ''}Rs ${Math.abs(Math.round(cum)).toLocaleString()}</span>
                 </div>`;
               }
-              return `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Combined projection at $${totalSavings.toLocaleString()}/mo</div>${rows}`;
+              return `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">Combined projection at Rs ${totalSavings.toLocaleString()}/mo</div>${rows}`;
             })()}
         </div>
       </div>
@@ -1985,8 +2502,8 @@
               ${g.deadline ? `<span class="deadline">📅 ${formatDate(g.deadline)}</span>` : ''}
             </div>
             <div class="savings-goal-amounts">
-              <span>Target: $${g.target.toLocaleString()}</span>
-              <span class="saved">Saved: $${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
+              <span>Target: Rs ${g.target.toLocaleString()}</span>
+              <span class="saved">Saved: Rs ${g.saved.toLocaleString()} (${Math.round(pct)}%)</span>
             </div>
             <div class="progress-bar">
               <div class="progress-fill" style="width:${pct}%;background:${pct >= 100 ? 'var(--success)' : 'linear-gradient(90deg, var(--info), var(--accent3))'}"></div>
@@ -2021,7 +2538,7 @@
       if (g.deadline && remaining > 0) {
         const months = Math.max(1, Math.ceil((new Date(g.deadline + 'T00:00:00') - new Date()) / (30.44 * 86400000)));
         const perMonth = Math.ceil(remaining / months);
-        monthlyNeeded = `$${perMonth.toLocaleString()}/mo needed ($${Math.ceil(perMonth / 2).toLocaleString()} each if split equally)`;
+        monthlyNeeded = `Rs ${perMonth.toLocaleString()}/mo needed (Rs ${Math.ceil(perMonth / 2).toLocaleString()} each if split equally)`;
       }
 
       return `
@@ -2035,8 +2552,8 @@
           </div>
 
           <div style="display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:.4rem">
-            <span style="color:var(--muted)">Target: <strong style="color:var(--text)">$${g.target.toLocaleString()}</strong></span>
-            <span style="color:var(--success);font-weight:600">Saved: $${totalSaved.toLocaleString()} (${Math.round(pct)}%)</span>
+            <span style="color:var(--muted)">Target: <strong style="color:var(--text)">Rs ${g.target.toLocaleString()}</strong></span>
+            <span style="color:var(--success);font-weight:600">Saved: Rs ${totalSaved.toLocaleString()} (${Math.round(pct)}%)</span>
           </div>
 
           <div class="progress-bar" style="height:10px;margin-bottom:.15rem">
@@ -2053,7 +2570,7 @@
           <div class="shared-contributions">
             <div class="contrib-card">
               <div class="person-label" style="color:#6366f1">👤 ${escHtml(n1)}'s contribution</div>
-              <div class="contrib-amount">$${(g.person1Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p1Pct}%)</span></div>
+              <div class="contrib-amount">Rs ${(g.person1Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p1Pct}%)</span></div>
               <div style="margin-top:.4rem">
                 <input type="number" min="0" step="0.01" value="${g.person1Saved || 0}" placeholder="Amount saved"
                   style="width:100%;padding:.35rem .5rem;font-size:.82rem;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;outline:none"
@@ -2062,7 +2579,7 @@
             </div>
             <div class="contrib-card">
               <div class="person-label" style="color:#ec4899">👤 ${escHtml(n2)}'s contribution</div>
-              <div class="contrib-amount">$${(g.person2Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p2Pct}%)</span></div>
+              <div class="contrib-amount">Rs ${(g.person2Saved || 0).toLocaleString()} <span style="font-size:.75rem;color:var(--muted);font-weight:400">(${p2Pct}%)</span></div>
               <div style="margin-top:.4rem">
                 <input type="number" min="0" step="0.01" value="${g.person2Saved || 0}" placeholder="Amount saved"
                   style="width:100%;padding:.35rem .5rem;font-size:.82rem;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;outline:none"
@@ -2072,7 +2589,7 @@
           </div>
 
           ${remaining > 0 ? `<div style="font-size:.82rem;color:var(--muted);margin-top:.3rem">
-            💰 Remaining: <strong style="color:var(--warning)">$${remaining.toLocaleString()}</strong>
+            💰 Remaining: <strong style="color:var(--warning)">Rs ${remaining.toLocaleString()}</strong>
             ${monthlyNeeded ? `<br>⏳ ${monthlyNeeded}` : ''}
           </div>` : '<div style="font-size:.88rem;color:var(--success);font-weight:600;margin-top:.3rem">🎉 Goal reached!</div>'}
         </div>
@@ -2091,6 +2608,145 @@
     renderPersonFinance('person1');
     renderPersonFinance('person2');
     if (activePerson === 'combined') renderCombined();
+  }
+
+  // ── Wedding Plan ─────────────────────────────────────
+  const WEDDING_KEY = 'dreamplan_wedding_v1';
+
+  function loadWedding() {
+    try { return JSON.parse(localStorage.getItem(WEDDING_KEY)) || { bride: [], groom: [] }; }
+    catch { return { bride: [], groom: [] }; }
+  }
+
+  function saveWeddingData(data) {
+    localStorage.setItem(WEDDING_KEY, JSON.stringify(data));
+  }
+
+  let weddingData = loadWedding();
+
+  function addWeddingItem(side) {
+    const name = document.getElementById('w-' + side + '-name').value.trim();
+    const cost = parseFloat(document.getElementById('w-' + side + '-cost').value);
+    const cat = document.getElementById('w-' + side + '-cat').value;
+    if (!name || !cost) return showToast('Enter item name and cost');
+    weddingData[side].push({ id: Date.now().toString(36), name, cost, category: cat });
+    saveWeddingData(weddingData);
+    document.getElementById('w-' + side + '-name').value = '';
+    document.getElementById('w-' + side + '-cost').value = '';
+    renderWedding();
+    showToast('Item added!');
+  }
+
+  function deleteWeddingItem(side, id) {
+    weddingData[side] = weddingData[side].filter(x => x.id !== id);
+    saveWeddingData(weddingData);
+    renderWedding();
+  }
+
+  const weddingCatColors = {
+    'Attire':'#8b5cf6','Jewellery':'#f59e0b','Salon & Beauty':'#ec4899','Photography':'#3b82f6',
+    'Catering':'#22c55e','Venue':'#6366f1','Decoration':'#f97316','Entertainment':'#10b981',
+    'Transport':'#64748b','Gifts':'#e11d48','Invitation':'#0ea5e9','Other':'#78716c'
+  };
+
+  function renderWedding() {
+    const brideTotal = weddingData.bride.reduce((s, i) => s + i.cost, 0);
+    const groomTotal = weddingData.groom.reduce((s, i) => s + i.cost, 0);
+    const grandTotal = brideTotal + groomTotal;
+
+    // Summary cards
+    document.getElementById('wedding-summary').innerHTML = `
+      <div class="budget-summary-card">
+        <div class="amount" style="color:#ec4899">Rs ${brideTotal.toLocaleString()}</div>
+        <div class="label">Bride's Total</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount" style="color:#6366f1">Rs ${groomTotal.toLocaleString()}</div>
+        <div class="label">Groom's Total</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount" style="color:var(--warning)">Rs ${grandTotal.toLocaleString()}</div>
+        <div class="label">Grand Total</div>
+      </div>
+      <div class="budget-summary-card">
+        <div class="amount" style="color:var(--muted)">${weddingData.bride.length + weddingData.groom.length}</div>
+        <div class="label">Total Items</div>
+      </div>
+    `;
+
+    // Bride list
+    const brideList = document.getElementById('wedding-bride-list');
+    brideList.innerHTML = weddingData.bride.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:.5rem">No items added yet</div>'
+      : weddingData.bride.map(i => `
+        <div class="wedding-item">
+          <span class="wi-name">${escHtml(i.name)}</span>
+          <span class="wi-cat">${escHtml(i.category)}</span>
+          <span class="wi-cost" style="color:#ec4899">Rs ${i.cost.toLocaleString()}</span>
+          <button class="wi-del" onclick="deleteWeddingItem('bride','${i.id}')">✕</button>
+        </div>`).join('');
+    document.getElementById('wedding-bride-total').textContent = 'Rs ' + brideTotal.toLocaleString();
+
+    // Groom list
+    const groomList = document.getElementById('wedding-groom-list');
+    groomList.innerHTML = weddingData.groom.length === 0
+      ? '<div style="color:var(--muted);font-size:.85rem;padding:.5rem">No items added yet</div>'
+      : weddingData.groom.map(i => `
+        <div class="wedding-item">
+          <span class="wi-name">${escHtml(i.name)}</span>
+          <span class="wi-cat">${escHtml(i.category)}</span>
+          <span class="wi-cost" style="color:#6366f1">Rs ${i.cost.toLocaleString()}</span>
+          <button class="wi-del" onclick="deleteWeddingItem('groom','${i.id}')">✕</button>
+        </div>`).join('');
+    document.getElementById('wedding-groom-total').textContent = 'Rs ' + groomTotal.toLocaleString();
+
+    // Breakdown by category
+    const catTotals = {};
+    [...weddingData.bride, ...weddingData.groom].forEach(i => {
+      if (!catTotals[i.category]) catTotals[i.category] = { bride: 0, groom: 0 };
+      if (weddingData.bride.includes(i)) catTotals[i.category].bride += i.cost;
+      else catTotals[i.category].groom += i.cost;
+    });
+
+    // Fix: re-calculate properly
+    const catMap = {};
+    weddingData.bride.forEach(i => {
+      if (!catMap[i.category]) catMap[i.category] = { bride: 0, groom: 0 };
+      catMap[i.category].bride += i.cost;
+    });
+    weddingData.groom.forEach(i => {
+      if (!catMap[i.category]) catMap[i.category] = { bride: 0, groom: 0 };
+      catMap[i.category].groom += i.cost;
+    });
+
+    const catEntries = Object.entries(catMap).sort((a, b) => (b[1].bride + b[1].groom) - (a[1].bride + a[1].groom));
+    const maxCat = Math.max(...catEntries.map(([, v]) => v.bride + v.groom), 1);
+    const chartEl = document.getElementById('wedding-breakdown-chart');
+
+    if (catEntries.length === 0) {
+      chartEl.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:1rem 0;text-align:center">Add items to see breakdown</div>';
+    } else {
+      chartEl.innerHTML = catEntries.map(([cat, v]) => {
+        const total = v.bride + v.groom;
+        const brideW = grandTotal > 0 ? (v.bride / maxCat * 100) : 0;
+        const groomW = grandTotal > 0 ? (v.groom / maxCat * 100) : 0;
+        const color = weddingCatColors[cat] || '#64748b';
+        return `<div style="margin-bottom:.85rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.3rem;font-size:.85rem">
+            <span style="color:var(--text);font-weight:500">${cat}</span>
+            <span style="color:var(--muted)">Rs ${total.toLocaleString()} (${grandTotal > 0 ? Math.round(total / grandTotal * 100) : 0}%)</span>
+          </div>
+          <div style="display:flex;height:20px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,0.05)">
+            ${v.bride > 0 ? `<div style="width:${brideW}%;background:#ec4899;display:flex;align-items:center;padding-left:.4rem;font-size:.68rem;font-weight:600;color:#fff;min-width:fit-content">Rs ${v.bride.toLocaleString()}</div>` : ''}
+            ${v.groom > 0 ? `<div style="width:${groomW}%;background:#6366f1;display:flex;align-items:center;padding-left:.4rem;font-size:.68rem;font-weight:600;color:#fff;min-width:fit-content">Rs ${v.groom.toLocaleString()}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('') + `
+        <div style="display:flex;gap:1.5rem;margin-top:.75rem;font-size:.78rem;color:var(--muted)">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#ec4899;border-radius:50%;margin-right:4px"></span>Bride</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#6366f1;border-radius:50%;margin-right:4px"></span>Groom</span>
+        </div>`;
+    }
   }
 
   // ── Init ─────────────────────────────────────────────────
