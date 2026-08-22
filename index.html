@@ -1138,11 +1138,11 @@
   </button>
   <button class="ps-btn" onclick="switchDreamPerson('person1', this)">
     <span class="ps-dot" style="background:#6366f1"></span>
-    <span id="dp-person1-name">Person 1</span>
+    <span id="dp-person1-name">Prabhath</span>
   </button>
   <button class="ps-btn" onclick="switchDreamPerson('person2', this)">
     <span class="ps-dot" style="background:#ec4899"></span>
-    <span id="dp-person2-name">Person 2</span>
+    <span id="dp-person2-name">Sanchi</span>
   </button>
 </div>
 
@@ -1215,11 +1215,11 @@
     <div class="person-tabs">
       <button class="person-tab active" onclick="switchPerson('person1', this)">
         <span class="person-avatar" style="background:#6366f1">👤</span>
-        <span id="person1-tab-name">Person 1</span>
+        <span id="person1-tab-name">Prabhath</span>
       </button>
       <button class="person-tab" onclick="switchPerson('person2', this)">
         <span class="person-avatar" style="background:#ec4899">👤</span>
-        <span id="person2-tab-name">Person 2</span>
+        <span id="person2-tab-name">Sanchi</span>
       </button>
       <button class="person-tab" onclick="switchPerson('combined', this)">
         <span class="person-avatar" style="background:#10b981">👥</span>
@@ -1241,7 +1241,7 @@
       </div>
     </div>
 
-    <!-- Person 1 Section -->
+    <!-- Prabhath Section -->
     <div id="fin-person1" class="person-section active">
       <div class="finance-grid">
         <div class="finance-panel">
@@ -1293,7 +1293,7 @@
       </div>
     </div>
 
-    <!-- Person 2 Section -->
+    <!-- Sanchi Section -->
     <div id="fin-person2" class="person-section">
       <div class="finance-grid">
         <div class="finance-panel">
@@ -1472,8 +1472,8 @@
         <div class="form-group">
           <label>Person</label>
           <select id="f-person">
-            <option value="person1" id="f-person-opt1">Person 1</option>
-            <option value="person2" id="f-person-opt2">Person 2</option>
+            <option value="person1" id="f-person-opt1">Prabhath</option>
+            <option value="person2" id="f-person-opt2">Sanchi</option>
           </select>
         </div>
       </div>
@@ -1640,8 +1640,8 @@
 
   function getPersonDisplayName(key) {
     const fin = loadFinance();
-    if (key === 'person1') return fin.names?.person1 || 'Person 1';
-    if (key === 'person2') return fin.names?.person2 || 'Person 2';
+    if (key === 'person1') return fin.names?.person1 || 'Prabhath';
+    if (key === 'person2') return fin.names?.person2 || 'Sanchi';
     return key;
   }
 
@@ -2418,7 +2418,7 @@
   let activePerson = 'person1';
 
   function getPersonName(key) {
-    return finData.names[key] || (key === 'person1' ? 'Person 1' : 'Person 2');
+    return finData.names[key] || (key === 'person1' ? 'Prabhath' : 'Sanchi');
   }
 
   function savePersonNames() {
