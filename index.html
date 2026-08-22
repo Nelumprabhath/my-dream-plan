@@ -1280,6 +1280,45 @@
 
     <div id="wedding-summary" class="wedding-grand-summary"></div>
 
+    <!-- Plate Calculator -->
+    <div class="wedding-side" style="margin-bottom:1.5rem">
+      <div class="side-heading"><span class="side-dot" style="background:var(--warning)"></span> 🍽️ Plate / Catering Calculator</div>
+      <div class="wedding-sides" style="margin-bottom:0;gap:1rem">
+        <div>
+          <div class="side-heading" style="font-size:.9rem;border:none;margin-bottom:.5rem;padding-bottom:0"><span class="side-dot" style="background:#ec4899"></span> Bride's Side</div>
+          <div class="fin-add-row" style="margin-bottom:.5rem">
+            <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+              <label style="margin:0;white-space:nowrap;min-width:fit-content;font-size:.85rem">Plates:</label>
+              <input type="number" id="w-bride-plates" min="0" step="1" placeholder="Count" class="fin-input" style="max-width:100px" oninput="calcPlates()" />
+            </div>
+            <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+              <label style="margin:0;white-space:nowrap;min-width:fit-content;font-size:.85rem">Cost/Plate:</label>
+              <input type="number" id="w-bride-plate-cost" min="0" step="0.01" placeholder="Rs" class="fin-input" style="max-width:120px" oninput="calcPlates()" />
+            </div>
+          </div>
+          <div style="text-align:right;font-weight:600;font-size:.92rem;color:#ec4899" id="w-bride-plate-total">Rs 0</div>
+        </div>
+        <div>
+          <div class="side-heading" style="font-size:.9rem;border:none;margin-bottom:.5rem;padding-bottom:0"><span class="side-dot" style="background:#6366f1"></span> Groom's Side</div>
+          <div class="fin-add-row" style="margin-bottom:.5rem">
+            <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+              <label style="margin:0;white-space:nowrap;min-width:fit-content;font-size:.85rem">Plates:</label>
+              <input type="number" id="w-groom-plates" min="0" step="1" placeholder="Count" class="fin-input" style="max-width:100px" oninput="calcPlates()" />
+            </div>
+            <div style="flex:1;display:flex;align-items:center;gap:.5rem">
+              <label style="margin:0;white-space:nowrap;min-width:fit-content;font-size:.85rem">Cost/Plate:</label>
+              <input type="number" id="w-groom-plate-cost" min="0" step="0.01" placeholder="Rs" class="fin-input" style="max-width:120px" oninput="calcPlates()" />
+            </div>
+          </div>
+          <div style="text-align:right;font-weight:600;font-size:.92rem;color:#6366f1" id="w-groom-plate-total">Rs 0</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:.75rem;padding-top:.6rem;border-top:1px solid var(--border);font-size:.95rem">
+        <span style="color:var(--muted)">Total Plates: <strong style="color:var(--text)" id="w-total-plates">0</strong></span>
+        <span style="font-weight:700;color:var(--warning)" id="w-total-plate-cost">Total: Rs 0</span>
+      </div>
+    </div>
+
     <div class="wedding-sides">
       <!-- Bride Side -->
       <div class="wedding-side">
@@ -2614,8 +2653,12 @@
   const WEDDING_KEY = 'dreamplan_wedding_v1';
 
   function loadWedding() {
-    try { return JSON.parse(localStorage.getItem(WEDDING_KEY)) || { bride: [], groom: [] }; }
-    catch { return { bride: [], groom: [] }; }
+    try {
+      const d = JSON.parse(localStorage.getItem(WEDDING_KEY));
+      if (d) { if (!d.plates) d.plates = { bridePlates:0,brideCost:0,groomPlates:0,groomCost:0 }; return d; }
+      return { bride: [], groom: [], plates: { bridePlates:0,brideCost:0,groomPlates:0,groomCost:0 } };
+    }
+    catch { return { bride: [], groom: [], plates: { bridePlates:0,brideCost:0,groomPlates:0,groomCost:0 } }; }
   }
 
   function saveWeddingData(data) {
@@ -2623,6 +2666,23 @@
   }
 
   let weddingData = loadWedding();
+
+  function calcPlates() {
+    const bp = parseInt(document.getElementById('w-bride-plates').value) || 0;
+    const bc = parseFloat(document.getElementById('w-bride-plate-cost').value) || 0;
+    const gp = parseInt(document.getElementById('w-groom-plates').value) || 0;
+    const gc = parseFloat(document.getElementById('w-groom-plate-cost').value) || 0;
+    const brideTotal = bp * bc;
+    const groomTotal = gp * gc;
+    document.getElementById('w-bride-plate-total').textContent = 'Rs ' + brideTotal.toLocaleString();
+    document.getElementById('w-groom-plate-total').textContent = 'Rs ' + groomTotal.toLocaleString();
+    document.getElementById('w-total-plates').textContent = (bp + gp).toLocaleString();
+    document.getElementById('w-total-plate-cost').textContent = 'Total: Rs ' + (brideTotal + groomTotal).toLocaleString();
+    weddingData.plates = { bridePlates: bp, brideCost: bc, groomPlates: gp, groomCost: gc };
+    saveWeddingData(weddingData);
+    // Update summary cards
+    renderWeddingSummary();
+  }
 
   function addWeddingItem(side) {
     const name = document.getElementById('w-' + side + '-name').value.trim();
@@ -2649,30 +2709,59 @@
     'Transport':'#64748b','Gifts':'#e11d48','Invitation':'#0ea5e9','Other':'#78716c'
   };
 
-  function renderWedding() {
-    const brideTotal = weddingData.bride.reduce((s, i) => s + i.cost, 0);
-    const groomTotal = weddingData.groom.reduce((s, i) => s + i.cost, 0);
-    const grandTotal = brideTotal + groomTotal;
+  function getWeddingTotals() {
+    const p = weddingData.plates || { bridePlates:0,brideCost:0,groomPlates:0,groomCost:0 };
+    const brideItems = weddingData.bride.reduce((s, i) => s + i.cost, 0);
+    const groomItems = weddingData.groom.reduce((s, i) => s + i.cost, 0);
+    const bridePlate = p.bridePlates * p.brideCost;
+    const groomPlate = p.groomPlates * p.groomCost;
+    return {
+      brideItems, groomItems, bridePlate, groomPlate,
+      brideTotal: brideItems + bridePlate,
+      groomTotal: groomItems + groomPlate,
+      grandTotal: brideItems + groomItems + bridePlate + groomPlate,
+      totalPlates: p.bridePlates + p.groomPlates,
+      totalPlateCost: bridePlate + groomPlate
+    };
+  }
 
-    // Summary cards
+  function renderWeddingSummary() {
+    const t = getWeddingTotals();
     document.getElementById('wedding-summary').innerHTML = `
       <div class="budget-summary-card">
-        <div class="amount" style="color:#ec4899">Rs ${brideTotal.toLocaleString()}</div>
+        <div class="amount" style="color:#ec4899">Rs ${t.brideTotal.toLocaleString()}</div>
         <div class="label">Bride's Total</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount" style="color:#6366f1">Rs ${groomTotal.toLocaleString()}</div>
+        <div class="amount" style="color:#6366f1">Rs ${t.groomTotal.toLocaleString()}</div>
         <div class="label">Groom's Total</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount" style="color:var(--warning)">Rs ${grandTotal.toLocaleString()}</div>
+        <div class="amount" style="color:var(--warning)">Rs ${t.grandTotal.toLocaleString()}</div>
         <div class="label">Grand Total</div>
       </div>
       <div class="budget-summary-card">
-        <div class="amount" style="color:var(--muted)">${weddingData.bride.length + weddingData.groom.length}</div>
-        <div class="label">Total Items</div>
+        <div class="amount" style="color:var(--success)">Rs ${t.totalPlateCost.toLocaleString()}</div>
+        <div class="label">Plates Cost (${t.totalPlates})</div>
       </div>
     `;
+  }
+
+  function renderWedding() {
+    // Load plate inputs
+    const p = weddingData.plates || { bridePlates:0,brideCost:0,groomPlates:0,groomCost:0 };
+    document.getElementById('w-bride-plates').value = p.bridePlates || '';
+    document.getElementById('w-bride-plate-cost').value = p.brideCost || '';
+    document.getElementById('w-groom-plates').value = p.groomPlates || '';
+    document.getElementById('w-groom-plate-cost').value = p.groomCost || '';
+    document.getElementById('w-bride-plate-total').textContent = 'Rs ' + (p.bridePlates * p.brideCost).toLocaleString();
+    document.getElementById('w-groom-plate-total').textContent = 'Rs ' + (p.groomPlates * p.groomCost).toLocaleString();
+    document.getElementById('w-total-plates').textContent = (p.bridePlates + p.groomPlates).toLocaleString();
+    document.getElementById('w-total-plate-cost').textContent = 'Total: Rs ' + ((p.bridePlates * p.brideCost) + (p.groomPlates * p.groomCost)).toLocaleString();
+
+    renderWeddingSummary();
+
+    const t = getWeddingTotals();
 
     // Bride list
     const brideList = document.getElementById('wedding-bride-list');
@@ -2685,7 +2774,7 @@
           <span class="wi-cost" style="color:#ec4899">Rs ${i.cost.toLocaleString()}</span>
           <button class="wi-del" onclick="deleteWeddingItem('bride','${i.id}')">✕</button>
         </div>`).join('');
-    document.getElementById('wedding-bride-total').textContent = 'Rs ' + brideTotal.toLocaleString();
+    document.getElementById('wedding-bride-total').textContent = 'Rs ' + t.brideTotal.toLocaleString();
 
     // Groom list
     const groomList = document.getElementById('wedding-groom-list');
@@ -2698,7 +2787,7 @@
           <span class="wi-cost" style="color:#6366f1">Rs ${i.cost.toLocaleString()}</span>
           <button class="wi-del" onclick="deleteWeddingItem('groom','${i.id}')">✕</button>
         </div>`).join('');
-    document.getElementById('wedding-groom-total').textContent = 'Rs ' + groomTotal.toLocaleString();
+    document.getElementById('wedding-groom-total').textContent = 'Rs ' + t.groomTotal.toLocaleString();
 
     // Breakdown by category
     const catTotals = {};
@@ -2728,13 +2817,13 @@
     } else {
       chartEl.innerHTML = catEntries.map(([cat, v]) => {
         const total = v.bride + v.groom;
-        const brideW = grandTotal > 0 ? (v.bride / maxCat * 100) : 0;
-        const groomW = grandTotal > 0 ? (v.groom / maxCat * 100) : 0;
+        const brideW = t.grandTotal > 0 ? (v.bride / maxCat * 100) : 0;
+        const groomW = t.grandTotal > 0 ? (v.groom / maxCat * 100) : 0;
         const color = weddingCatColors[cat] || '#64748b';
         return `<div style="margin-bottom:.85rem">
           <div style="display:flex;justify-content:space-between;margin-bottom:.3rem;font-size:.85rem">
             <span style="color:var(--text);font-weight:500">${cat}</span>
-            <span style="color:var(--muted)">Rs ${total.toLocaleString()} (${grandTotal > 0 ? Math.round(total / grandTotal * 100) : 0}%)</span>
+            <span style="color:var(--muted)">Rs ${total.toLocaleString()} (${t.grandTotal > 0 ? Math.round(total / t.grandTotal * 100) : 0}%)</span>
           </div>
           <div style="display:flex;height:20px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,0.05)">
             ${v.bride > 0 ? `<div style="width:${brideW}%;background:#ec4899;display:flex;align-items:center;padding-left:.4rem;font-size:.68rem;font-weight:600;color:#fff;min-width:fit-content">Rs ${v.bride.toLocaleString()}</div>` : ''}
