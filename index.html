@@ -1112,6 +1112,8 @@
 <header>
   <h1>✨ My Dream Plan</h1>
   <p>Turn your dreams into milestones</p>
+  <button id="sync-btn" onclick="openSyncSettings()" title="Cloud Sync Settings" style="position:absolute;top:1rem;right:1.5rem;background:rgba(255,255,255,0.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);z-index:10">☁️</button>
+  <div id="sync-status" style="position:absolute;top:1rem;right:4.5rem;font-size:.7rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:4px;z-index:10"><span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:#888;display:inline-block"></span><span id="sync-text">Not synced</span></div>
   <div class="header-stats">
     <div class="stat">
       <div class="stat-num" id="stat-total">0</div>
@@ -1604,9 +1606,215 @@
   </div>
 </div>
 
+<!-- Sync Settings Modal -->
+<div id="sync-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:none;align-items:center;justify-content:center">
+  <div style="background:var(--card);border-radius:16px;padding:2rem;max-width:480px;width:90%;border:1px solid var(--border)">
+    <h3 style="margin-bottom:1rem;color:var(--accent)">☁️ Cloud Sync Settings</h3>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Sync your data across all devices via GitHub. Your token is stored only in this browser, never in the source code.</p>
+    <div style="margin-bottom:1rem">
+      <label style="font-size:.8rem;color:var(--muted);display:block;margin-bottom:.3rem">GitHub Personal Access Token</label>
+      <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;padding:.6rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem" />
+      <p style="font-size:.72rem;color:var(--muted);margin-top:.3rem">Create at GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens. Grant <b>Contents: Read and write</b> access to the <b>my-dream-plan</b> repo only.</p>
+    </div>
+    <div id="sync-migrate-info" style="display:none;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);border-radius:8px;padding:.75rem;margin-bottom:1rem;font-size:.82rem;color:var(--success)">
+      ✅ Local data found! It will be uploaded on first sync.
+    </div>
+    <div style="display:flex;gap:.75rem;justify-content:flex-end">
+      <button onclick="closeSyncModal()" style="padding:.5rem 1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer">Cancel</button>
+      <button onclick="disconnectSync()" id="sync-disconnect-btn" style="display:none;padding:.5rem 1.2rem;background:#c0392b;border:none;border-radius:8px;color:#fff;cursor:pointer">Disconnect</button>
+      <button onclick="saveAndSync()" style="padding:.5rem 1.2rem;background:var(--accent);border:none;border-radius:8px;color:#fff;cursor:pointer;font-weight:600">Save & Sync</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
+  // ── GitHub Cloud Sync Engine ─────────────────────────────
+  const GH_OWNER = 'Nelumprabhath';
+  const GH_REPO = 'my-dream-plan';
+  const GH_DATA_FILE = 'data.json';
+  const GH_BRANCH = 'main';
+  const GH_TOKEN_KEY = 'dreamplan_gh_token';
+
+  function getGhToken() { return localStorage.getItem(GH_TOKEN_KEY); }
+  function setGhToken(t) { localStorage.setItem(GH_TOKEN_KEY, t); }
+  function removeGhToken() { localStorage.removeItem(GH_TOKEN_KEY); }
+  function isSyncEnabled() { return !!getGhToken(); }
+
+  function updateSyncUI(status, color) {
+    const dot = document.getElementById('sync-dot');
+    const txt = document.getElementById('sync-text');
+    if (dot) dot.style.background = color;
+    if (txt) txt.textContent = status;
+  }
+
+  async function ghApiFetch(path, opts = {}) {
+    const token = getGhToken();
+    if (!token) throw new Error('No token');
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/${path}`, {
+      ...opts,
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', ...(opts.headers || {}) }
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`GitHub API ${res.status}: ${err}`);
+    }
+    return res.json();
+  }
+
+  async function loadFromGitHub() {
+    try {
+      // Try public raw fetch first (no token needed for reads)
+      const res = await fetch(`https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_DATA_FILE}?t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      }
+      return null;
+    } catch { return null; }
+  }
+
+  async function saveToGitHub(allData) {
+    const token = getGhToken();
+    if (!token) return false;
+    try {
+      updateSyncUI('Syncing...', '#ff9800');
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(allData, null, 2))));
+
+      // Get current file SHA (needed for updates)
+      let sha = null;
+      try {
+        const existing = await ghApiFetch(`contents/${GH_DATA_FILE}?ref=${GH_BRANCH}`);
+        sha = existing.sha;
+      } catch {}
+
+      const body = {
+        message: `Sync data - ${new Date().toISOString()}`,
+        content: content,
+        branch: GH_BRANCH
+      };
+      if (sha) body.sha = sha;
+
+      await ghApiFetch(`contents/${GH_DATA_FILE}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      updateSyncUI('Synced', '#4caf50');
+      return true;
+    } catch (e) {
+      console.error('GitHub save failed:', e);
+      updateSyncUI('Sync failed', '#e94560');
+      return false;
+    }
+  }
+
+  function getAllLocalData() {
+    return {
+      dreams: JSON.parse(localStorage.getItem('dreamplan_v1') || '[]'),
+      finance: JSON.parse(localStorage.getItem('dreamplan_finance_v2') || 'null'),
+      wedding: JSON.parse(localStorage.getItem('dreamplan_wedding_v1') || 'null'),
+      lastSync: new Date().toISOString()
+    };
+  }
+
+  function applyCloudData(data) {
+    if (data.dreams) { localStorage.setItem('dreamplan_v1', JSON.stringify(data.dreams)); }
+    if (data.finance) { localStorage.setItem('dreamplan_finance_v2', JSON.stringify(data.finance)); }
+    if (data.wedding) { localStorage.setItem('dreamplan_wedding_v1', JSON.stringify(data.wedding)); }
+  }
+
+  // Debounced sync - waits 2 seconds after last change before syncing
+  let syncTimeout = null;
+  function scheduleSync() {
+    if (!isSyncEnabled()) return;
+    if (syncTimeout) clearTimeout(syncTimeout);
+    updateSyncUI('Pending...', '#ff9800');
+    syncTimeout = setTimeout(async () => {
+      const allData = getAllLocalData();
+      await saveToGitHub(allData);
+    }, 2000);
+  }
+
+  function openSyncSettings() {
+    const modal = document.getElementById('sync-modal');
+    modal.style.display = 'flex';
+    const token = getGhToken();
+    if (token) {
+      document.getElementById('gh-token-input').value = token;
+      document.getElementById('sync-disconnect-btn').style.display = '';
+    }
+    // Check if there's local data to migrate
+    const local = getAllLocalData();
+    if (local.dreams.length || local.finance || local.wedding) {
+      document.getElementById('sync-migrate-info').style.display = '';
+    }
+  }
+
+  function closeSyncModal() {
+    document.getElementById('sync-modal').style.display = 'none';
+  }
+
+  function disconnectSync() {
+    removeGhToken();
+    updateSyncUI('Not synced', '#888');
+    closeSyncModal();
+    showToast('Sync disconnected');
+  }
+
+  async function saveAndSync() {
+    const token = document.getElementById('gh-token-input').value.trim();
+    if (!token) { showToast('Please enter a token'); return; }
+    setGhToken(token);
+
+    // First, try to load cloud data
+    const cloud = await loadFromGitHub();
+    const local = getAllLocalData();
+
+    if (cloud && cloud.dreams && cloud.dreams.length > 0 && (!local.dreams || local.dreams.length === 0)) {
+      // Cloud has data, local is empty → pull from cloud
+      applyCloudData(cloud);
+      dreams = loadDreams();
+      finData = loadFinance();
+      weddingData = loadWedding();
+      renderAll();
+      showToast('Data loaded from cloud!');
+    } else {
+      // Local has data (or both have data) → push local to cloud
+      await saveToGitHub(local);
+      showToast('Data synced to cloud!');
+    }
+
+    updateSyncUI('Synced', '#4caf50');
+    closeSyncModal();
+  }
+
+  function renderAll() {
+    renderDreams();
+    updatePersonNames();
+    renderWedding();
+  }
+
+  // On page load: if token exists, load from cloud
+  async function initSync() {
+    if (!isSyncEnabled()) { updateSyncUI('Not synced', '#888'); return; }
+    updateSyncUI('Loading...', '#ff9800');
+    const cloud = await loadFromGitHub();
+    if (cloud) {
+      applyCloudData(cloud);
+      // Reload data variables
+      dreams = loadDreams();
+      finData = loadFinance();
+      weddingData = loadWedding();
+      renderAll();
+      updateSyncUI('Synced', '#4caf50');
+    } else {
+      updateSyncUI('Synced', '#4caf50');
+    }
+  }
+
   // ── Data Layer ──────────────────────────────────────────
   const STORAGE_KEY = 'dreamplan_v1';
 
@@ -1617,6 +1825,7 @@
 
   function saveDreams(dreams) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dreams));
+    scheduleSync();
   }
 
   let dreams = loadDreams();
@@ -2412,6 +2621,7 @@
 
   function saveFinance(data) {
     localStorage.setItem(FIN_KEY, JSON.stringify(data));
+    scheduleSync();
   }
 
   let finData = loadFinance();
@@ -2924,6 +3134,7 @@
 
   function saveWeddingData(data) {
     localStorage.setItem(WEDDING_KEY, JSON.stringify(data));
+    scheduleSync();
   }
 
   let weddingData = loadWedding();
@@ -3102,6 +3313,9 @@
   // ── Init ─────────────────────────────────────────────────
   updatePersonNames();
   renderDreams();
+
+  // Start cloud sync after page loads
+  initSync();
 </script>
 </body>
 </html>
