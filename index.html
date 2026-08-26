@@ -1678,6 +1678,7 @@
   async function saveToGitHub(allData) {
     const token = getGhToken();
     if (!token) return false;
+    isSyncing = true;
     try {
       updateSyncUI('Syncing...', '#ff9800');
       const content = btoa(unescape(encodeURIComponent(JSON.stringify(allData, null, 2))));
@@ -1702,11 +1703,14 @@
         body: JSON.stringify(body)
       });
 
+      lastKnownSync = allData.lastSync;
       updateSyncUI('Synced', '#4caf50');
+      isSyncing = false;
       return true;
     } catch (e) {
       console.error('GitHub save failed:', e);
       updateSyncUI('Sync failed', '#e94560');
+      isSyncing = false;
       return false;
     }
   }
@@ -1797,6 +1801,10 @@
     renderWedding();
   }
 
+  // Track last known sync timestamp to detect remote changes
+  let lastKnownSync = null;
+  let isSyncing = false;
+
   // On page load: if token exists, load from cloud
   async function initSync() {
     if (!isSyncEnabled()) { updateSyncUI('Not synced', '#888'); return; }
@@ -1804,7 +1812,7 @@
     const cloud = await loadFromGitHub();
     if (cloud) {
       applyCloudData(cloud);
-      // Reload data variables
+      lastKnownSync = cloud.lastSync || null;
       dreams = loadDreams();
       finData = loadFinance();
       weddingData = loadWedding();
@@ -1813,6 +1821,38 @@
     } else {
       updateSyncUI('Synced', '#4caf50');
     }
+    // Start auto-polling for remote changes every 30 seconds
+    startAutoRefresh();
+  }
+
+  async function checkForRemoteChanges() {
+    if (!isSyncEnabled() || isSyncing) return;
+    try {
+      const cloud = await loadFromGitHub();
+      if (!cloud) return;
+      // If remote lastSync is different and newer than what we know, pull it
+      if (cloud.lastSync && cloud.lastSync !== lastKnownSync) {
+        lastKnownSync = cloud.lastSync;
+        applyCloudData(cloud);
+        dreams = loadDreams();
+        finData = loadFinance();
+        weddingData = loadWedding();
+        renderAll();
+        updateSyncUI('Synced', '#4caf50');
+      }
+    } catch {}
+  }
+
+  let autoRefreshInterval = null;
+  function startAutoRefresh() {
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(checkForRemoteChanges, 30000);
+    // Also refresh when the tab becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && isSyncEnabled()) {
+        checkForRemoteChanges();
+      }
+    });
   }
 
   // ── Data Layer ──────────────────────────────────────────
