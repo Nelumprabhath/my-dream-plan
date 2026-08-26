@@ -1,0 +1,33 @@
+{
+  "dreams": [
+    {
+      "id": "mt4402jpfpk6rs0s5sj",
+      "title": "Purchase a land",
+      "desc": "",
+      "category": "Personal Growth",
+      "status": "in-progress",
+      "start": "2026-08-22",
+      "target": "",
+      "budget": 4000000,
+      "spent": 0,
+      "progress": 0,
+      "notes": "",
+      "updatedAt": "2026-08-22T09:22:46.284Z",
+      "createdAt": "2026-08-22T08:21:24.325Z",
+      "steps": [
+        {
+          "name": "check the documents in land kuruduwattha",
+          "cost": 2000
+        },
+        {
+          "name": "check the land documents in windfield",
+          "cost": 2000
+        }
+      ],
+      "stepsCost": 4000
+    }
+  ],
+  "finance": null,
+  "wedding": null,
+  "lastSync": "2026-08-26T18:00:31.613Z"
+}
